@@ -16,6 +16,13 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --primary: #d90429;
+    --secondary: #EF233C;
+    --primary-white: #EDF2F4;
+    --primary-blue: #8D99AE;
+    --secondary-blue: #2B2D42;
+    --primary-grey: #555555;
+    --secondary-grey: #2A3439;
   }
 }
 
