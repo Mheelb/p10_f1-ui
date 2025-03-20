@@ -1,8 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 @import "tailwindcss";
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #EF0000;
+  --secondary: #EF233C;
+  --primary-white: #EDF2F4;
+  --primary-blue: #8D99AE;
+  --secondary-blue: #2B2D42;
+  --primary-grey: #555555;
+  --secondary-grey: #2A3439;
 }
 
 @theme inline {
@@ -16,13 +23,6 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-    --primary: #d90429;
-    --secondary: #EF233C;
-    --primary-white: #EDF2F4;
-    --primary-blue: #8D99AE;
-    --secondary-blue: #2B2D42;
-    --primary-grey: #555555;
-    --secondary-grey: #2A3439;
   }
 }
 
@@ -30,4 +30,11 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  text-transform: uppercase;
 }
