@@ -4,7 +4,6 @@ import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
-import path from "path";
 
 interface HeaderProps {}
 
