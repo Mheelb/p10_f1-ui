@@ -4,16 +4,26 @@ import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
+import path from "path";
 
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
     const pathname = usePathname();
     const [isClient, setIsClient] = useState(false);
+    const [activeTab, setActiveTab] = useState("");
 
     useEffect(() => {
         setIsClient(true);
     }, []);
+
+    useEffect(() => {
+        if (pathname === "/racing") {
+            setActiveTab("upcoming");
+        } else if (pathname === "/leagues") {
+            setActiveTab("my-leagues");
+        }
+    }, [pathname]);
 
     const handleBack = () => {
         if (isClient) {
@@ -21,11 +31,8 @@ const Header: FC<HeaderProps> = () => {
         }
     };
 
-
-    const [activeTab, setActiveTab] = useState("upcoming");
-
     return (
-        <header className={pathname !== "/" ? "h-35" : "h-25"}>
+        <header className={pathname === "/" || pathname === "/account" ? "h-25" : "h-35"}>
             <div className="flex items-center justify-between w-full">
                 {pathname !== "/" && (
                     <IoIosArrowBack
@@ -48,6 +55,8 @@ const Header: FC<HeaderProps> = () => {
                                 ? "account"
                                 : pathname === "/racing"
                                 ? "racing"
+                                : pathname === "/leagues" 
+                                ? "leagues"
                                 : "404"}
                         </h1>
                     )}
@@ -66,8 +75,23 @@ const Header: FC<HeaderProps> = () => {
                                 Past
                         </h3>
                     </div>
+                ) : pathname === "/leagues" ? (
+                    <div className="grid grid-cols-3">
+                        <h3 className={activeTab === "my-leagues" ? "text-center mt-5 pb-3 active" : "text-center mt-5 pb-3"}
+                             onClick={() => setActiveTab("my-leagues")}>
+                                My leagues
+                        </h3>
+                        <h3 className={activeTab === "public-leagues" ? "text-center mt-5 pb-3 active" : "text-center mt-5 pb-3"}
+                             onClick={() => setActiveTab("public-leagues")}>
+                                public
+                        </h3>
+                        <h3 className={activeTab === "private-leagues" ? "text-center mt-5 pb-3 active" : "text-center mt-5 pb-3"}
+                             onClick={() => setActiveTab("private-leagues")}>
+                                private
+                        </h3>
+                    </div>
                 ) : (
-                    <div className="h-16"></div>
+                    <div></div>
                 )}
             </div>
         </header>
