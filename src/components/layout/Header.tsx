@@ -2,13 +2,18 @@
 
 import { FC, useEffect, useState } from "react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 import { useActiveTab } from '@/context/ActiveTabProvider';
 
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
+
+    
+    const searchParams = useSearchParams();
+    const name = searchParams.get("name");
+    
     const pathname = usePathname();
     const [isClient, setIsClient] = useState(false);
     const { activeTab, setActiveTab } = useActiveTab();
@@ -32,7 +37,7 @@ const Header: FC<HeaderProps> = () => {
     };
 
     return (
-        <header className={pathname === "/" || pathname === "/account" ? "h-25" : "h-35"}>
+        <header className={pathname === "/" || pathname === "/account" || pathname.includes('/races/') ? "h-25" : "h-35"}>
             <div className="flex items-center justify-between w-full">
                 {pathname !== "/" && (
                     <IoIosArrowBack
@@ -55,6 +60,8 @@ const Header: FC<HeaderProps> = () => {
                                 ? "account"
                                 : pathname === "/races"
                                 ? "races"
+                                : pathname.includes("/races/")
+                                ? name
                                 : pathname === "/leagues" 
                                 ? "leagues"
                                 : "404"}
