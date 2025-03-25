@@ -15,7 +15,6 @@ const Timer: FC<TimerProps>= ({ dateCircuit }) => {
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             return parse(`<h1>${days}</h1><p>d :&nbsp;</p><h1>${hours}</h1><p>h :&nbsp;</p><h1>${minutes}</h1><p>m</p>`);
         }
     
