@@ -4,3 +4,11 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 1em;
 }
+
+.bet-card .grand-prix-info {
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    border-bottom-right-radius: 10px;
+    padding: 1em;
+    margin-bottom: 1em;
+}
