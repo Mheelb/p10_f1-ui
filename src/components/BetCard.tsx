@@ -42,11 +42,22 @@ const BetCard: FC = () => {
         status: "Completed",
     }
 
+    const hasBet = true;
+
+    const [bet, setBet] = useState(getBet());
+
     const countryName = fakeNextRace.competition.location.country;
     const countryCode = getCode(fakeNextRace.competition.location.country);
     const grandPrixName = fakeNextRace.competition.name;
     const circuitImage = fakeNextRace.circuit.image;
     const date = new Date(fakeNextRace.date);
+
+    function getBet() {
+        if (hasBet)
+            return 'Hamilton';
+        else
+            return '';
+    };
 
     return (
         <div className='bet-card w-90 '>
@@ -61,7 +72,13 @@ const BetCard: FC = () => {
                 <img src={circuitImage} alt="circuit" className='w-20 h-20' />
             </div>
             <Timer dateCircuit={date} />
-            <Button onClick={() => console.log('clicked')}>Bet</Button>
+            {hasBet ? (
+                <div >
+                    <h2>your bet :</h2>
+                    <h1 className='mb-2'>{bet}</h1>
+                    <Button onClick={() => console.log('clicked')} color="secondary">Change</Button>
+                </div>
+                ) : <Button onClick={() => console.log('clicked')}>Bet</Button>}
         </div>
     )
 }
