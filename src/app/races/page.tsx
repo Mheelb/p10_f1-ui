@@ -2,13 +2,189 @@
 
 import { useActiveTab } from '@/context/ActiveTabProvider';
 import { useEffect } from 'react';
+import { IoIosArrowForward } from "react-icons/io";
 
 export default function Races() {
 
   const { activeTab, setActiveTab } = useActiveTab();
-    
+
+  const fakeRaces = [
+    {
+      id: 1671,
+      competition: {
+        id: 2,
+        name: "Bahrain Grand Prix",
+        location: {
+          country: "Bahrain",
+          city: "Sakhir",
+        },
+      },
+      circuit: {
+        id: 2,
+        name: "Bahrain International Circuit",
+        image: "https://media.api-sports.io/formula-1/circuits/2.png",
+      },
+      season: 2023,
+      type: "Race",
+      laps: {
+        current: null,
+        total: 57,
+      },
+      fastest_lap: {
+        driver: {
+          id: 83,
+        },
+        time: "1:33.996",
+      },
+      distance: "308.5 Kms",
+      timezone: "utc",
+      date: "2023-03-05T15:00:00+00:00",
+      weather: null,
+      status: "Completed",
+      p10: {
+        id: 25,
+        name: "Lewis Hamilton",
+        trigram: "HAM",
+        team : {
+          id: 2,
+          name: "Mercedes",
+          trigram: "MER",
+          color: "#00D2BE",
+        },
+      },
+    },
+    {
+      id: 1676,
+      competition: {
+        id: 32,
+        name: "Saudi Arabia Grand Prix",
+        location: {
+          country: "Saudi Arabia",
+          city: "Djeddah",
+        },
+      },
+      circuit: {
+        id: 29,
+        name: "Jeddah Corniche Circuit",
+        image: "https://media.api-sports.io/formula-1/circuits/29.png",
+      },
+      season: 2023,
+      type: "Race",
+      laps: {
+        current: null,
+        total: 50,
+      },
+      fastest_lap: {
+        driver: {
+          id: 25
+        },
+        time: "1:31.906",
+      },
+      distance: "308.8 Kms",
+      timezone: "utc",
+      date: "2023-03-19T17:00:00+00:00",
+      weather: null,
+      status: "Completed",
+      p10: {
+        id: 25,
+        name: "Lewis Hamilton",
+        trigram: "HAM",
+        team : {
+          id: 2,
+          name: "Mercedes",
+          trigram: "MER",
+          color: "#00D2BE",
+        },
+      },
+    },
+    {
+      id: 1681,
+      competition: {
+        id: 1,
+        name: "Australia Grand Prix",
+        location: {
+          country: "Australia",
+          city: "Melbourne",
+        },
+      },
+      circuit: {
+        id: 1,
+        name: "Albert Park Circuit",
+        image: "https://media.api-sports.io/formula-1/circuits/1.png",
+      },
+      season: 2023,
+      type: "Race",
+      laps: {
+        current: null,
+        total: 58,
+      },
+      fastest_lap: {
+        driver: {
+          id: 10,
+        },
+        time: "1:20.235",
+      },
+      distance: "307.6 Kms",
+      timezone: "utc",
+      date: "2023-04-02T05:00:00+00:00",
+      weather: null,
+      status: "Completed",
+      p10: {
+        id: 10,
+        name: "Max Verstappen",
+        trigram: "VER",
+        team : {
+          id: 1,
+          name: "Red Bull Racing",
+          trigram: "RBR",
+          color: "#1E41FF",
+      },
+    },
+  },
+  ];
+
+
+  function toDay (date: string) {
+    return new Date(date).toLocaleDateString('en-GB', { day: '2-digit' });
+  };
+
+  function toMonth (date: string) {
+    return new Date(date).toLocaleDateString('en-GB', { month: 'short' });
+  }
+
   return (
-    <div className='flex justify-center items-center h-screen'>
+    <div>
+      {fakeRaces.map((race) => (
+        <div key={race.id} className="race-card w-90">
+        <div className='container flex justify-between items-center'>
+          <div className='flex flex-col items-center date-section'>
+            <h3>{toDay(race.date)}</h3>
+            <div className='chip'>
+              <p>{toMonth(race.date)}</p>
+            </div>
+          </div>
+          <div className='flex flex-col flex-grow'>
+            <div className='flex justify-between items-center'>
+              <div>
+                <h2>round {race.id}</h2>
+                <h1>{race.competition.location.country}</h1>
+                <p>{race.competition.name}</p>
+              </div>
+              <IoIosArrowForward className="arrow text-2xl" />
+            </div>
+            <div className='flex items-center mt-2'>
+              <div className='chip' style={{ backgroundColor: "#9cc09c" }}>
+                <p>P10</p>
+              </div>
+              <div className='p10 flex items-center'>
+                <div className='team-color-rectangle' style={{ backgroundColor: race.p10.team.color }}></div>
+                <h3 className='team-name'>{race.p10.trigram}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      ))}
     </div>
   );
 }
