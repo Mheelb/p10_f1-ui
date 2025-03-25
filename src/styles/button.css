@@ -1,0 +1,24 @@
+.button {
+    border-radius: 5px;
+    padding: 10px;
+    font-family: 'Formula-1-Regular', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.button.primary {
+    background: var(--primary);
+    color: var(--primary-white);
+    border: 1.5px solid var(--primary);
+}
+
+.button.secondary {
+    background: white;
+    color: black;
+    border: 1.5px solid black;
+}
+
+.button.disabled {
+    opacity: 40%;
+}
