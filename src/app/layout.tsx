@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/layout/Header";
+import { ActiveTabProvider } from "@/context/ActiveTabProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,8 +29,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        {children}
+        <ActiveTabProvider>
+          <Header />
+          {children}
+        </ActiveTabProvider>
       </body>
     </html>
   );

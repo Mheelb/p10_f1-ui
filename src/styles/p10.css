@@ -34,3 +34,75 @@
     color: var(--primary-white);
     margin: 2px;
 }
+
+.race-card {
+    background: white;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+.race-card .arrow {
+    color: var(--primary)
+}
+
+.race-card .date-section {
+    padding-right: 1em;
+    margin-right: 1em;
+    border-right: 1px dashed var(--secondary-grey);
+}
+
+.trigram {
+    transform: skewX(-20deg);
+}
+
+.team-color-rectangle {
+    width: 5px;
+    height: 15px;
+    background: var(--primary-white);
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+  }
+
+.chip {
+    background: var(--primary-white);
+    color: black;
+    border-radius: 20px;
+    padding-left: 1em;
+    padding-right: 1em;
+    max-width: fit-content;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
+.chip p {
+    font-weight: 900;
+}
+
+.header-classification {
+    background: var(--secondary-grey);
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.header-classification h3 {
+    color: var(--primary-white);
+}
+
+.body-classification {
+    padding: 1em;
+    margin-bottom: 1em;
+    border-bottom: 1px solid var(--primary-grey);
+}
+
+.body-classification h1 {
+    color: var(--primary-grey);
+}
+
+.body-classification .trigram h1 {
+    color: var(--secondary-grey);
+}

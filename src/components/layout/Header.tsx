@@ -2,22 +2,28 @@
 
 import { FC, useEffect, useState } from "react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
+import { useActiveTab } from '@/context/ActiveTabProvider';
 
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
+
+    
+    const searchParams = useSearchParams();
+    const name = searchParams.get("name");
+    
     const pathname = usePathname();
     const [isClient, setIsClient] = useState(false);
-    const [activeTab, setActiveTab] = useState("");
+    const { activeTab, setActiveTab } = useActiveTab();
 
     useEffect(() => {
         setIsClient(true);
     }, []);
 
     useEffect(() => {
-        if (pathname === "/racing") {
+        if (pathname === "/races") {
             setActiveTab("upcoming");
         } else if (pathname === "/leagues") {
             setActiveTab("my-leagues");
@@ -31,7 +37,7 @@ const Header: FC<HeaderProps> = () => {
     };
 
     return (
-        <header className={pathname === "/" || pathname === "/account" ? "h-25" : "h-35"}>
+        <header className={pathname === "/" || pathname === "/account" || pathname.includes('/races/') ? "h-25" : "h-35"}>
             <div className="flex items-center justify-between w-full">
                 {pathname !== "/" && (
                     <IoIosArrowBack
@@ -52,8 +58,10 @@ const Header: FC<HeaderProps> = () => {
                         <h1 className="text-white">
                             {pathname === "/account"
                                 ? "account"
-                                : pathname === "/racing"
-                                ? "racing"
+                                : pathname === "/races"
+                                ? "races"
+                                : pathname.includes("/races/")
+                                ? name
                                 : pathname === "/leagues" 
                                 ? "leagues"
                                 : "404"}
@@ -63,7 +71,7 @@ const Header: FC<HeaderProps> = () => {
                 {pathname !== "/" && <div className="w-8"></div>}
             </div>
             <div>
-                {pathname === "/racing" ? (
+                {pathname === "/races" ? (
                     <div className="grid grid-cols-2">
                         <h3 className={activeTab === "upcoming" ? "text-center mt-5 pb-3 active" : "text-center mt-5 pb-3"}
                              onClick={() => setActiveTab("upcoming")}>
