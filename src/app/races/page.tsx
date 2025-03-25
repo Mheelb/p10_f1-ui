@@ -3,6 +3,7 @@
 import { useActiveTab } from '@/context/ActiveTabProvider';
 import { useEffect, useState } from 'react';
 import RaceCard from '@/components/RaceCard';
+import Link from 'next/link';
 
 export default function Races() {
 
@@ -45,7 +46,7 @@ export default function Races() {
         id: 25,
         name: "Lewis Hamilton",
         trigram: "HAM",
-        team : {
+        team: {
           id: 2,
           name: "Mercedes",
           trigram: "MER",
@@ -89,7 +90,7 @@ export default function Races() {
         id: 25,
         name: "Lewis Hamilton",
         trigram: "HAM",
-        team : {
+        team: {
           id: 2,
           name: "Mercedes",
           trigram: "MER",
@@ -133,17 +134,17 @@ export default function Races() {
         id: 10,
         name: "Max Verstappen",
         trigram: "VER",
-        team : {
+        team: {
           id: 1,
           name: "Red Bull Racing",
           trigram: "RBR",
           color: "#1E41FF",
+        },
       },
     },
-  },
   ];
 
-  const [ races, setRaces ] = useState(getRaces());
+  const [races, setRaces] = useState(getRaces());
 
   function getRaces() {
     // fetch
@@ -154,7 +155,7 @@ export default function Races() {
     <div>
       {races.map((race) => (
         activeTab === 'upcoming' ? <RaceCard key={race.id} race={race} type="upcoming" />
-        : <RaceCard key={race.id} race={race} type="past" />
+          : <Link href={`/races/${race.id}`}><RaceCard key={race.id} race={race} type="past" /></Link>
       ))}
     </div>
   );
