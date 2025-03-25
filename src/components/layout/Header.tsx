@@ -17,7 +17,7 @@ const Header: FC<HeaderProps> = () => {
     }, []);
 
     useEffect(() => {
-        if (pathname === "/racing") {
+        if (pathname === "/races") {
             setActiveTab("upcoming");
         } else if (pathname === "/leagues") {
             setActiveTab("my-leagues");
@@ -52,8 +52,8 @@ const Header: FC<HeaderProps> = () => {
                         <h1 className="text-white">
                             {pathname === "/account"
                                 ? "account"
-                                : pathname === "/racing"
-                                ? "racing"
+                                : pathname === "/races"
+                                ? "races"
                                 : pathname === "/leagues" 
                                 ? "leagues"
                                 : "404"}
@@ -63,7 +63,7 @@ const Header: FC<HeaderProps> = () => {
                 {pathname !== "/" && <div className="w-8"></div>}
             </div>
             <div>
-                {pathname === "/racing" ? (
+                {pathname === "/races" ? (
                     <div className="grid grid-cols-2">
                         <h3 className={activeTab === "upcoming" ? "text-center mt-5 pb-3 active" : "text-center mt-5 pb-3"}
                              onClick={() => setActiveTab("upcoming")}>
