@@ -55,7 +55,7 @@
     border-right: 1px dashed var(--secondary-grey);
 }
 
-.race-card .p10 {
+.trigram {
     transform: skewX(-20deg);
 }
 
@@ -67,7 +67,7 @@
     margin-left: 0.5em;
   }
 
-  .chip {
+.chip {
     background: var(--primary-white);
     color: black;
     border-radius: 20px;
@@ -81,4 +81,28 @@
 
 .chip p {
     font-weight: 900;
+}
+
+.header-classification {
+    background: var(--secondary-grey);
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.header-classification h3 {
+    color: var(--primary-white);
+}
+
+.body-classification {
+    padding: 1em;
+    margin-bottom: 1em;
+    border-bottom: 1px solid var(--primary-grey);
+}
+
+.body-classification h1 {
+    color: var(--primary-grey);
+}
+
+.body-classification .trigram h1 {
+    color: var(--secondary-grey);
 }

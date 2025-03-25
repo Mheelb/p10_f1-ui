@@ -56,7 +56,7 @@ const RaceCard: FC<RaceCardProps> = ({ race, type }) => {
                     {type === 'past' ? (
                         <div className='flex items-center mt-2'>
                             <Chip label='P10' color="green" />
-                            <div className='p10 flex items-center'>
+                            <div className='trigram flex items-center'>
                                 <div className='team-color-rectangle' style={{ backgroundColor: race.p10.team.color }}></div>
                                 <h3 className='team-name'>{race.p10.trigram}</h3>
                             </div>
