@@ -2,6 +2,7 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import DriverClassification from '@/components/DriverClassification';
 
 const Race = () => {
   const router = useRouter();
@@ -83,17 +84,8 @@ const Race = () => {
         <h3>pts</h3>
       </div>
       {race.results.map((result, index) => (
-        <div key={index} className='grid grid-cols-5 justify-items-center body-classification'>
-          <h1>{result.position}</h1>
-          <div className='trigram flex items-center'>
-            <div className='team-color-rectangle' style={{ backgroundColor: result.team.color }}></div>
-            <h1 className='team-name'>{result.driver.trigram}</h1>
-          </div>
-          <h1 className='col-span-2'>{result.timer}</h1>
-          <h1>{result.points}</h1>
-        </div>
+        <DriverClassification key={index} result={result} index={index} />
       ))}
-
     </div>
   );
 };
