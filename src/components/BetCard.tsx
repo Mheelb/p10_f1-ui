@@ -9,35 +9,35 @@ import Timer from '@/components/common/Timer';
 const BetCard: FC = () => {
 
     const fakeNextRace = {
-        id: 1671,
+        id: 1676,
         competition: {
-            id: 2,
-            name: "Bahrain Grand Prix",
+            id: 32,
+            name: "Saudi Arabia Grand Prix",
             location: {
-                country: "Bahrain",
-                city: "Sakhir",
-            }
+                country: "Saudi Arabia",
+                city: "Djeddah",
+            },
         },
         circuit: {
-            id: 2,
-            name: "Bahrain International Circuit",
-            image: "https://media.api-sports.io/formula-1/circuits/2.png",
+            id: 29,
+            name: "Jeddah Corniche Circuit",
+            image: "https://media.api-sports.io/formula-1/circuits/29.png",
         },
         season: 2023,
         type: "Race",
         laps: {
             current: null,
-            total: 57,
+            total: 50,
         },
         fastest_lap: {
             driver: {
-                id: 83,
+                id: 25,
             },
-            time: "1:33.996",
+            time: "1:31.906"
         },
-        distance: "308.5 Kms",
+        distance: "308.8 Kms",
         timezone: "utc",
-        date: "2025-03-29T07:00:00Z",
+        date: "2025-03-29T08:00:00Z",
         weather: null,
         status: "Completed",
     }
@@ -47,7 +47,7 @@ const BetCard: FC = () => {
     const grandPrixName = fakeNextRace.competition.name;
     const circuitImage = fakeNextRace.circuit.image;
     const date = new Date(fakeNextRace.date);
-    
+
     return (
         <div className='bet-card w-90 '>
             <div className='grand-prix-info flex justify-between'>
