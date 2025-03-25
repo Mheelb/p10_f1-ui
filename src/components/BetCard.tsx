@@ -80,8 +80,9 @@ const BetCard: FC = () => {
                 </div>
                 <img src={circuitImage} alt="circuit" className='w-20 h-20' />
             </div>
-            <div className='timer'>
-                <div className='flex items-center'>{timeLeft}</div>
+            <div className='timer-box flex justify-between items-center'>
+                <p>Time left to bet</p>
+                <div className='flex items-center timer'>{timeLeft}</div>
             </div>
             <Button onClick={() => console.log('clicked')}>Bet</Button>
         </div>

@@ -12,3 +12,25 @@
     padding: 1em;
     margin-bottom: 1em;
 }
+
+.bet-card .timer-box {
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 1em;
+    font-family: 'Formula-1-Regular', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    background: var(--secondary-grey);
+    color: white;
+    border: 1.5px solid var(--secondary-grey);
+}
+
+.bet-card .timer-box p {
+    color: var(--primary-white);
+}
+
+.bet-card .timer-box .timer p {
+    color: var(--primary-white);
+    margin: 2px;
+}
