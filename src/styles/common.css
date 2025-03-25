@@ -22,3 +22,23 @@
 .button.disabled {
     opacity: 40%;
 }
+
+.input {
+    border-radius: 5px;
+    padding: 10px;
+    border: 0.5px solid black;
+    background: var(--primary-white);
+    font-family: 'Formula-1-Regular', sans-serif;
+}
+
+.input:focus {
+    outline: none;
+    border: 0.5px solid var(--primary);
+}
+
+.input.disabled {
+    opacity: 40%;
+    background: var(--primary-blue);
+}
+
+
