@@ -155,7 +155,7 @@ export default function Races() {
     <div>
       {races.map((race) => (
         activeTab === 'upcoming' ? <RaceCard key={race.id} race={race} type="upcoming" />
-          : <Link href={`/races/${race.id}?name=${race.competition.location.country}`}><RaceCard key={race.id} race={race} type="past" /></Link>
+          : <Link key={race.id} href={`/races/${race.id}?name=${race.competition.location.country}`}><RaceCard race={race} type="past" /></Link>
       ))}
     </div>
   );
