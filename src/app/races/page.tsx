@@ -1,7 +1,7 @@
 "use client";
 
 import { useActiveTab } from '@/context/ActiveTabProvider';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import RaceCard from '@/components/RaceCard';
 
 export default function Races() {
@@ -143,9 +143,16 @@ export default function Races() {
   },
   ];
 
+  const [ races, setRaces ] = useState(getRaces());
+
+  function getRaces() {
+    // fetch
+    return fakeRaces;
+  }
+
   return (
     <div>
-      {fakeRaces.map((race) => (
+      {races.map((race) => (
         activeTab === 'upcoming' ? <RaceCard key={race.id} race={race} type="upcoming" />
         : <RaceCard key={race.id} race={race} type="past" />
       ))}
