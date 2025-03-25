@@ -3,6 +3,7 @@
 import { useActiveTab } from '@/context/ActiveTabProvider';
 import { useEffect } from 'react';
 import { IoIosArrowForward } from "react-icons/io";
+import Chip from '@/components/common/Chip';
 
 export default function Races() {
 
@@ -159,9 +160,7 @@ export default function Races() {
         <div className='container flex justify-between items-center'>
           <div className='flex flex-col items-center date-section'>
             <h3>{toDay(race.date)}</h3>
-            <div className='chip'>
-              <p>{toMonth(race.date)}</p>
-            </div>
+            <Chip label={toMonth(race.date)} />
           </div>
           <div className='flex flex-col flex-grow'>
             <div className='flex justify-between items-center'>
@@ -173,9 +172,7 @@ export default function Races() {
               <IoIosArrowForward className="arrow text-2xl" />
             </div>
             <div className='flex items-center mt-2'>
-              <div className='chip' style={{ backgroundColor: "#9cc09c" }}>
-                <p>P10</p>
-              </div>
+              <Chip label='P10' color="green"/>
               <div className='p10 flex items-center'>
                 <div className='team-color-rectangle' style={{ backgroundColor: race.p10.team.color }}></div>
                 <h3 className='team-name'>{race.p10.trigram}</h3>
