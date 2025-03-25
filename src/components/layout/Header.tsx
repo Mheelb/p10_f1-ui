@@ -4,13 +4,14 @@ import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
+import { useActiveTab } from '@/context/ActiveTabProvider';
 
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
     const pathname = usePathname();
     const [isClient, setIsClient] = useState(false);
-    const [activeTab, setActiveTab] = useState("");
+    const { activeTab, setActiveTab } = useActiveTab();
 
     useEffect(() => {
         setIsClient(true);
