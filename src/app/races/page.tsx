@@ -9,8 +9,40 @@ import { faker } from '@faker-js/faker';
 export default function Races() {
 
   const { activeTab, setActiveTab } = useActiveTab();
-  const [pastRaces, setPastRaces] = useState(getPastRaces());
-  const [upcomingRaces, setUpcomingRaces] = useState(getUpcomingRaces());
+  interface Race {
+    id: number;
+    round: number;
+    competition: {
+      name: string;
+      country: string;
+    };
+    circuit: {
+      name: string;
+      image: string;
+    };
+    date: string;
+    result?: {
+      driver_name: string;
+      driver_trigram: string;
+      driver_team: {
+        name: string;
+        color: string;
+      };
+      timer: string;
+      position: string;
+      points: number;
+    }[];
+    p10?: {
+      name: string;
+      trigram: string;
+      team: {
+        color: string;
+      };
+    };
+  }
+  
+  const [pastRaces, setPastRaces] = useState<Race[]>([]);
+  const [upcomingRaces, setUpcomingRaces] = useState<Race[]>([]);
 
   //faker
   function generateRaceResult() {
@@ -29,8 +61,8 @@ export default function Races() {
 
   function generatePastRace() {
     return {
-      id : faker.string.numeric(4),
-      round: faker.number.int(24),
+      id: faker.number.int({ min: 1000, max: 9999 }),
+      round: faker.number.int({ min: 1, max: 24 }),
       competition: {
         name: faker.lorem.words(3),
         country: faker.location.country(),
@@ -53,8 +85,8 @@ export default function Races() {
 
   function generateUpcomingRace() {
     return {
-      id: faker.number.int(),
-      round: faker.number.int(24),
+      id: faker.number.int({ min: 1000, max: 9999 }),
+      round: faker.number.int({ min: 1, max: 24 }),
       competition: {
         name: faker.lorem.words(3),
         country: faker.location.country(),
@@ -68,21 +100,26 @@ export default function Races() {
   }
 
   function getPastRaces() {
-    // using faker to generate fake data until the API is available
     return Array.from({ length: 10 }, generatePastRace);
   }
 
   function getUpcomingRaces() {
-    // using faker to generate fake data until the API is available
     return Array.from({ length: 10 }, generateUpcomingRace);
   }
+
+  useEffect(() => {
+    setPastRaces(getPastRaces());
+    setUpcomingRaces(getUpcomingRaces());
+  }, []);
 
   return (
     <div>
       {activeTab === 'upcoming' ? upcomingRaces.map((race) => (
         <RaceCard key={race.id} race={race} type="upcoming" />
       )) : pastRaces.map((race) => (
-        <Link key={race.id} href={`/races/${race.id}?name=${race.competition.country}`}><RaceCard race={race} type="past" /></Link>
+        <Link key={race.id} href={`/races/${race.id}?name=${race.competition.country}`}>
+          <RaceCard race={race} type="past" />
+        </Link>
       ))}
     </div>
   );

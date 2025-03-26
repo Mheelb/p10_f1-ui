@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { IoIosArrowForward } from "react-icons/io";
 import Chip from '@/components/common/Chip';
 
@@ -17,16 +17,16 @@ interface RaceCardProps {
         };
         date: string;
         result?:{
-			driver_name: string;
-			driver_trigram: string
-			driver_team: {
-				name: string;
-				color: string;
-			}
-			timer: string;
-			position: string;
-			points: number;
-		}[];
+            driver_name: string;
+            driver_trigram: string
+            driver_team: {
+                name: string;
+                color: string;
+            }
+            timer: string;
+            position: string;
+            points: number;
+        }[];
         p10?: {
             trigram: string;
             team: {
@@ -38,21 +38,23 @@ interface RaceCardProps {
 }
 
 const RaceCard: FC<RaceCardProps> = ({ race, type }) => {
+    const [day, setDay] = useState<string | null>(null);
+    const [month, setMonth] = useState<string | null>(null);
 
-    function toDay(date: string) {
-        return new Date(date).toLocaleDateString('en-GB', { day: '2-digit' });
-    };
+    useEffect(() => {
+        const dateObj = new Date(race.date);
+        setDay(dateObj.toLocaleDateString('en-GB', { day: '2-digit' }));
+        setMonth(dateObj.toLocaleDateString('en-GB', { month: 'short' }));
+    }, [race.date]);
 
-    function toMonth(date: string) {
-        return new Date(date).toLocaleDateString('en-GB', { month: 'short' });
-    }
+    if (!day || !month) return null; // Évite le rendu avant la mise à jour du state
 
     return (
         <div className="race-card w-90">
             <div className='container flex justify-between items-center'>
                 <div className='flex flex-col items-center date-section'>
-                    <h3>{toDay(race.date)}</h3>
-                    <Chip label={toMonth(race.date)} />
+                    <h3>{day}</h3>
+                    <Chip label={month} />
                 </div>
                 <div className='flex flex-col flex-grow'>
                     <div className='flex justify-between items-center'>
@@ -63,17 +65,15 @@ const RaceCard: FC<RaceCardProps> = ({ race, type }) => {
                         </div>
                         <IoIosArrowForward className="arrow text-2xl" />
                     </div>
-                    {type === 'past' ? (
+                    {type === 'past' && race.p10 && (
                         <div className='flex items-center mt-2'>
                             <Chip label='P10' color="green" />
                             <div className='trigram flex items-center'>
-                                {race.p10 && (
-                                    <div className='team-color-rectangle' style={{ backgroundColor: race.p10.team.color }}></div>
-                                )}
-                                {race.p10 && <h3 className='team-name'>{race.p10.trigram}</h3>}
+                                <div className='team-color-rectangle' style={{ backgroundColor: race.p10.team.color }}></div>
+                                <h3 className='team-name'>{race.p10.trigram}</h3>
                             </div>
                         </div>
-                    ) : ('')}
+                    )}
                 </div>
             </div>
         </div>
