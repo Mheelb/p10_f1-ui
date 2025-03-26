@@ -5,52 +5,36 @@ import Button from '@/components/common/Button';
 import { getCode } from 'country-list';
 import Flag from 'react-world-flags'
 import Timer from '@/components/common/Timer';
+import { faker } from '@faker-js/faker';
 
 const BetCard: FC = () => {
 
-    const fakeNextRace = {
-        id: 1676,
-        competition: {
-            id: 32,
-            name: "Saudi Arabia Grand Prix",
-            location: {
-                country: "Saudi Arabia",
-                city: "Djeddah",
-            },
-        },
-        circuit: {
-            id: 29,
-            name: "Jeddah Corniche Circuit",
-            image: "https://media.api-sports.io/formula-1/circuits/29.png",
-        },
-        season: 2023,
-        type: "Race",
-        laps: {
-            current: null,
-            total: 50,
-        },
-        fastest_lap: {
-            driver: {
-                id: 25,
-            },
-            time: "1:31.906"
-        },
-        distance: "308.8 Kms",
-        timezone: "utc",
-        date: "2025-03-29T08:00:00Z",
-        weather: null,
-        status: "Completed",
-    }
+    //faker
+    function generateNextRace() {
+        return {
+          id: faker.number.int(),
+          competition: {
+            name: faker.lorem.words(3),
+            country: faker.location.country(),
+          },
+          circuit: {
+            name: faker.location.streetAddress(),
+            image: faker.image.urlLoremFlickr({ category: 'sports' }),
+          },
+          date: faker.date.future().toISOString(),
+        };
+      }
 
-    const hasBet = true;
+    const hasBet = false;
 
     const [bet, setBet] = useState(getBet());
+    const [nextRace, setNextRace] = useState(generateNextRace());
 
-    const countryName = fakeNextRace.competition.location.country;
-    const countryCode = getCode(fakeNextRace.competition.location.country);
-    const grandPrixName = fakeNextRace.competition.name;
-    const circuitImage = fakeNextRace.circuit.image;
-    const date = new Date(fakeNextRace.date);
+    const countryName = nextRace.competition.country;
+    const countryCode = getCode(nextRace.competition.country);
+    const grandPrixName = nextRace.competition.name;
+    const circuitImage = "https://media.api-sports.io/formula-1/circuits/29.png";
+    const date = new Date(nextRace.date);
 
     function getBet() {
         if (hasBet)
