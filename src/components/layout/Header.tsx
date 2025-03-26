@@ -47,14 +47,7 @@ const Header: FC<HeaderProps> = () => {
                 )}
                 <div className="flex-grow flex justify-center mt-12">
                     {pathname === "/" ? (
-                        <Image
-                            src="/logo.webp"
-                            alt="Logo"
-                            width={190}
-                            height={60}
-                            priority
-                            style={{ width: "auto" }}
-                        />
+                        <img src="assets/images/logo.png" alt="Logo" className="w-60" />
                     ) : (
                         <h1 className="text-white">
                             {pathname === "/account"
