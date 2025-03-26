@@ -53,6 +53,7 @@ const Header: FC<HeaderProps> = () => {
                             width={190}
                             height={60}
                             priority
+                            style={{ width: "auto" }}
                         />
                     ) : (
                         <h1 className="text-white">
