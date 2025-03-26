@@ -3,64 +3,44 @@
 import { FC, useEffect, useState } from 'react';
 import Button from '@/components/common/Button';
 import { getCode } from 'country-list';
-import Flag from 'react-world-flags'
+import Flag from 'react-world-flags';
 import Timer from '@/components/common/Timer';
+import { faker } from '@faker-js/faker';
 
 const BetCard: FC = () => {
-
-    const fakeNextRace = {
-        id: 1676,
-        competition: {
-            id: 32,
-            name: "Saudi Arabia Grand Prix",
-            location: {
-                country: "Saudi Arabia",
-                city: "Djeddah",
-            },
-        },
-        circuit: {
-            id: 29,
-            name: "Jeddah Corniche Circuit",
-            image: "https://media.api-sports.io/formula-1/circuits/29.png",
-        },
-        season: 2023,
-        type: "Race",
-        laps: {
-            current: null,
-            total: 50,
-        },
-        fastest_lap: {
-            driver: {
-                id: 25,
-            },
-            time: "1:31.906"
-        },
-        distance: "308.8 Kms",
-        timezone: "utc",
-        date: "2025-03-29T08:00:00Z",
-        weather: null,
-        status: "Completed",
-    }
-
-    const hasBet = true;
-
+    const hasBet = false;
     const [bet, setBet] = useState(getBet());
+    const [nextRace, setNextRace] = useState<any>(null);
 
-    const countryName = fakeNextRace.competition.location.country;
-    const countryCode = getCode(fakeNextRace.competition.location.country);
-    const grandPrixName = fakeNextRace.competition.name;
-    const circuitImage = fakeNextRace.circuit.image;
-    const date = new Date(fakeNextRace.date);
+    useEffect(() => {
+        setNextRace({
+            id: faker.number.int(),
+            competition: {
+                name: faker.lorem.words(3),
+                country: faker.location.country(),
+            },
+            circuit: {
+                name: faker.location.streetAddress(),
+                image: faker.image.urlLoremFlickr({ category: 'sports' }),
+            },
+            date: faker.date.future().toISOString(),
+        });
+    }, []);
 
     function getBet() {
-        if (hasBet)
-            return 'Hamilton';
-        else
-            return '';
-    };
+        return hasBet ? 'Hamilton' : '';
+    }
+
+    if (!nextRace) return null;
+
+    const countryName = nextRace.competition.country;
+    const countryCode = getCode(nextRace.competition.country);
+    const grandPrixName = nextRace.competition.name;
+    const circuitImage = "https://media.api-sports.io/formula-1/circuits/29.png";
+    const date = new Date(nextRace.date);
 
     return (
-        <div className='bet-card w-90 '>
+        <div className='bet-card w-90'>
             <div className='grand-prix-info flex justify-between'>
                 <div>
                     <div className='flex'>
@@ -73,14 +53,16 @@ const BetCard: FC = () => {
             </div>
             <Timer dateCircuit={date} />
             {hasBet ? (
-                <div >
-                    <h2>your bet :</h2>
+                <div>
+                    <h2>Your bet:</h2>
                     <h1 className='mb-2'>{bet}</h1>
                     <Button onClick={() => console.log('clicked')} color="secondary">Change</Button>
                 </div>
-                ) : <Button onClick={() => console.log('clicked')}>Bet</Button>}
+            ) : (
+                <Button onClick={() => console.log('clicked')}>Bet</Button>
+            )}
         </div>
-    )
-}
+    );
+};
 
 export default BetCard;
