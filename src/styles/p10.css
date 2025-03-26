@@ -94,6 +94,7 @@
 }
 
 .body-classification {
+    background: var(--primary-white);
     padding: 1em;
     margin-bottom: 1em;
     border-bottom: 1px solid var(--primary-grey);
