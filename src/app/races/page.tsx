@@ -4,158 +4,85 @@ import { useActiveTab } from '@/context/ActiveTabProvider';
 import { useEffect, useState } from 'react';
 import RaceCard from '@/components/RaceCard';
 import Link from 'next/link';
+import { faker } from '@faker-js/faker';
 
 export default function Races() {
 
   const { activeTab, setActiveTab } = useActiveTab();
+  const [pastRaces, setPastRaces] = useState(getPastRaces());
+  const [upcomingRaces, setUpcomingRaces] = useState(getUpcomingRaces());
 
-  const fakeRaces = [
-    {
-      id: 1671,
+  //faker
+  function generateRaceResult() {
+    return {
+      driver_name: faker.person.fullName(),
+      driver_trigram: faker.string.alpha({ length: 3, casing: 'upper' }),
+      driver_team: {
+        name: faker.company.name(),
+        color: faker.color.rgb({ prefix: '#' }),
+      },
+      timer: faker.string.numeric(2) + ':' + faker.string.numeric(2) + '.' + faker.string.numeric(3),
+      position: faker.string.numeric(),
+      points: faker.number.int({ min: 0, max: 25 }),
+    };
+  }
+
+  function generatePastRace() {
+    return {
+      id : faker.string.numeric(4),
+      round: faker.number.int(24),
       competition: {
-        id: 2,
-        name: "Bahrain Grand Prix",
-        location: {
-          country: "Bahrain",
-          city: "Sakhir",
-        },
+        name: faker.lorem.words(3),
+        country: faker.location.country(),
       },
       circuit: {
-        id: 2,
-        name: "Bahrain International Circuit",
-        image: "https://media.api-sports.io/formula-1/circuits/2.png",
+        name: faker.location.streetAddress(),
+        image: faker.image.urlLoremFlickr({ category: 'sports' }),
       },
-      season: 2023,
-      type: "Race",
-      laps: {
-        current: null,
-        total: 57,
-      },
-      fastest_lap: {
-        driver: {
-          id: 83,
-        },
-        time: "1:33.996",
-      },
-      distance: "308.5 Kms",
-      timezone: "utc",
-      date: "2023-03-05T15:00:00+00:00",
-      weather: null,
-      status: "Completed",
+      date: faker.date.past().toISOString(),
+      result: Array.from({ length: 10 }, generateRaceResult),
       p10: {
-        id: 25,
-        name: "Lewis Hamilton",
-        trigram: "HAM",
+        name: faker.person.fullName(),
+        trigram: faker.string.alpha({ length: 3, casing: 'upper' }),
         team: {
-          id: 2,
-          name: "Mercedes",
-          trigram: "MER",
-          color: "#00D2BE",
+          color: faker.color.rgb({ prefix: '#' }),
         },
       },
-    },
-    {
-      id: 1676,
+    };
+  }
+
+  function generateUpcomingRace() {
+    return {
+      id: faker.number.int(),
+      round: faker.number.int(24),
       competition: {
-        id: 32,
-        name: "Saudi Arabia Grand Prix",
-        location: {
-          country: "Saudi Arabia",
-          city: "Djeddah",
-        },
+        name: faker.lorem.words(3),
+        country: faker.location.country(),
       },
       circuit: {
-        id: 29,
-        name: "Jeddah Corniche Circuit",
-        image: "https://media.api-sports.io/formula-1/circuits/29.png",
+        name: faker.location.streetAddress(),
+        image: faker.image.urlLoremFlickr({ category: 'sports' }),
       },
-      season: 2023,
-      type: "Race",
-      laps: {
-        current: null,
-        total: 50,
-      },
-      fastest_lap: {
-        driver: {
-          id: 25
-        },
-        time: "1:31.906",
-      },
-      distance: "308.8 Kms",
-      timezone: "utc",
-      date: "2023-03-19T17:00:00+00:00",
-      weather: null,
-      status: "Completed",
-      p10: {
-        id: 25,
-        name: "Lewis Hamilton",
-        trigram: "HAM",
-        team: {
-          id: 2,
-          name: "Mercedes",
-          trigram: "MER",
-          color: "#00D2BE",
-        },
-      },
-    },
-    {
-      id: 1681,
-      competition: {
-        id: 1,
-        name: "Australia Grand Prix",
-        location: {
-          country: "Australia",
-          city: "Melbourne",
-        },
-      },
-      circuit: {
-        id: 1,
-        name: "Albert Park Circuit",
-        image: "https://media.api-sports.io/formula-1/circuits/1.png",
-      },
-      season: 2023,
-      type: "Race",
-      laps: {
-        current: null,
-        total: 58,
-      },
-      fastest_lap: {
-        driver: {
-          id: 10,
-        },
-        time: "1:20.235",
-      },
-      distance: "307.6 Kms",
-      timezone: "utc",
-      date: "2023-04-02T05:00:00+00:00",
-      weather: null,
-      status: "Completed",
-      p10: {
-        id: 10,
-        name: "Max Verstappen",
-        trigram: "VER",
-        team: {
-          id: 1,
-          name: "Red Bull Racing",
-          trigram: "RBR",
-          color: "#1E41FF",
-        },
-      },
-    },
-  ];
+      date: faker.date.future().toISOString(),
+    };
+  }
 
-  const [races, setRaces] = useState(getRaces());
+  function getPastRaces() {
+    // using faker to generate fake data until the API is available
+    return Array.from({ length: 10 }, generatePastRace);
+  }
 
-  function getRaces() {
-    // fetch
-    return fakeRaces;
+  function getUpcomingRaces() {
+    // using faker to generate fake data until the API is available
+    return Array.from({ length: 10 }, generateUpcomingRace);
   }
 
   return (
     <div>
-      {races.map((race) => (
-        activeTab === 'upcoming' ? <RaceCard key={race.id} race={race} type="upcoming" />
-          : <Link key={race.id} href={`/races/${race.id}?name=${race.competition.location.country}`}><RaceCard race={race} type="past" /></Link>
+      {activeTab === 'upcoming' ? upcomingRaces.map((race) => (
+        <RaceCard key={race.id} race={race} type="upcoming" />
+      )) : pastRaces.map((race) => (
+        <Link key={race.id} href={`/races/${race.id}?name=${race.competition.country}`}><RaceCard race={race} type="past" /></Link>
       ))}
     </div>
   );
