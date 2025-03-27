@@ -16,3 +16,6 @@ out/
 
 # Docker
 docker-compose.override.yml
+
+# Test
+.test-results/

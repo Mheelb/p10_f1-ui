@@ -18,6 +18,12 @@ const Header: FC<HeaderProps> = () => {
     const [isClient, setIsClient] = useState(false);
     const { activeTab, setActiveTab } = useActiveTab();
 
+    const handleBack = () => {
+        if (isClient) {
+            window.history.back();
+        }
+    };
+
     useEffect(() => {
         setIsClient(true);
     }, []);
@@ -30,26 +36,21 @@ const Header: FC<HeaderProps> = () => {
         }
     }, [pathname]);
 
-    const handleBack = () => {
-        if (isClient) {
-            window.history.back();
-        }
-    };
-
     return (
         <header className={pathname === "/" || pathname === "/account" || pathname.includes('/races/') ? "h-25" : "h-35"}>
             <div className="flex items-center justify-between w-full">
                 {pathname !== "/" && (
-                    <IoIosArrowBack
-                        className="text-2xl text-white mt-12 ml-2"
-                        onClick={handleBack}
-                    />
+                    <div id="back-button" onClick={handleBack}>
+                        <IoIosArrowBack
+                            className="text-2xl text-white mt-12 ml-2"
+                        />
+                    </div>
                 )}
                 <div className="flex-grow flex justify-center mt-12">
                     {pathname === "/" ? (
                         <img src="assets/images/logo.png" alt="Logo" className="w-60" />
                     ) : (
-                        <h1 className="text-white">
+                        <h1 className="text-white" id="page-title">
                             {pathname === "/account"
                                 ? "account"
                                 : pathname === "/races"

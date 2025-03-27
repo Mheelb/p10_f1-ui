@@ -6,11 +6,13 @@ import { getCode } from 'country-list';
 import Flag from 'react-world-flags';
 import Timer from '@/components/common/Timer';
 import { faker } from '@faker-js/faker';
+import { useRouter } from 'next/navigation';
 
 const BetCard: FC = () => {
     const hasBet = false;
     const [bet, setBet] = useState(getBet());
     const [nextRace, setNextRace] = useState<any>(null);
+    const router = useRouter();
 
     useEffect(() => {
         setNextRace({
@@ -45,21 +47,21 @@ const BetCard: FC = () => {
                 <div>
                     <div className='flex'>
                         <Flag code={countryCode} className="w-8 h-8 mr-2" />
-                        <h1>{countryName}</h1>
+                        <h1 id='country-name'>{countryName}</h1>
                     </div>
-                    <p>{grandPrixName}</p>
+                    <p id='grand-prix-name'>{grandPrixName}</p>
                 </div>
-                <img src={circuitImage} alt="circuit" className='w-20 h-20' />
+                <img id="circuit-image" src={circuitImage} alt="circuit" className='w-20 h-20' />
             </div>
             <Timer dateCircuit={date} />
             {hasBet ? (
                 <div>
                     <h2>Your bet:</h2>
                     <h1 className='mb-2'>{bet}</h1>
-                    <Button onClick={() => console.log('clicked')} color="secondary">Change</Button>
+                    <Button id="bet-button" onClick={() => router.push("/bet")} color="secondary">Change</Button>
                 </div>
             ) : (
-                <Button onClick={() => console.log('clicked')}>Bet</Button>
+                <Button id="bet-button" onClick={() => router.push("/bet")}>Bet</Button>
             )}
         </div>
     );
