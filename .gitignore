@@ -18,4 +18,4 @@ out/
 docker-compose.override.yml
 
 # Test
-.test-results/
+test-results/
