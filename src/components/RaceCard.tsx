@@ -47,7 +47,7 @@ const RaceCard: FC<RaceCardProps> = ({ race, type }) => {
         setMonth(dateObj.toLocaleDateString('en-GB', { month: 'short' }));
     }, [race.date]);
 
-    if (!day || !month) return null; // Évite le rendu avant la mise à jour du state
+    if (!day || !month) return null;
 
     return (
         <div className="race-card w-90">
@@ -56,7 +56,7 @@ const RaceCard: FC<RaceCardProps> = ({ race, type }) => {
                     <h3>{day}</h3>
                     <Chip label={month} />
                 </div>
-                <div className='flex flex-col flex-grow'>
+                <div className='flex flex-col flex-grow race-info'>
                     <div className='flex justify-between items-center'>
                         <div>
                             <h2>round {race.round}</h2>

@@ -29,3 +29,23 @@ test('le titre change en fonction de la page', async ({ page }: { page: import('
     await page.goto(`/account`);
     await expect(title).toHaveText('account');
 });
+
+test('le header affiche une section tab pour les courses au click change bien de tab', async ({ page }: { page: import('@playwright/test').Page }) => {
+    await page.goto(`/races`);
+    
+    const upcomingTab = await page.locator('text=Upcoming');
+    const pastTab = await page.locator('text=Past');
+  
+    await expect(upcomingTab).toBeVisible();
+    await expect(pastTab).toBeVisible();
+  
+    await pastTab.click();
+  
+    await expect(upcomingTab).not.toHaveClass(/active/);
+    await expect(pastTab).toHaveClass(/active/);
+
+    await upcomingTab.click();
+
+    await expect(upcomingTab).toHaveClass(/active/);
+    await expect(pastTab).not.toHaveClass(/active/);
+});
