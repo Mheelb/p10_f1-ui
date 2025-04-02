@@ -10,19 +10,19 @@ export default function Leagues() {
 
     const togglePopup = () => {
         setIsPopupVisible((prev) => !prev);
-      };
+    };
 
-      useEffect(() => {
+    useEffect(() => {
         if (isPopupVisible) {
-          document.body.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
         } else {
-          document.body.style.overflow = "auto";
+            document.body.style.overflow = "auto";
         }
-    
+
         return () => {
-          document.body.style.overflow = "auto";
+            document.body.style.overflow = "auto";
         };
-      }, [isPopupVisible]);
+    }, [isPopupVisible]);
 
     if (!isAuthenticated) {
         return <h1>Please log in to view your leagues.</h1>;
@@ -30,10 +30,13 @@ export default function Leagues() {
 
     return (
         <div>
-            <AddLeaguePopup isVisible={isPopupVisible} togglePopup={() => togglePopup()} />
-            <div className="fixed bottom-4 right-4 z-50">
-                <AddBtn handleClick={togglePopup}/>
-            </div>
+            {!isPopupVisible ? (
+                <div className="fixed bottom-4 right-4 z-50">
+                    <AddBtn handleClick={togglePopup} />
+                </div>
+            ): (
+                <AddLeaguePopup isVisible={isPopupVisible} togglePopup={togglePopup} />
+            )}
         </div>
     );
 }

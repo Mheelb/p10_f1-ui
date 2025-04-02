@@ -1,7 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
 import Input from "./common/Input";
+import Chip from "./common/Chip";
+import { toast } from 'react-toastify';
+import Button from "./common/Button";
+import { useActiveTab } from "@/context/ActiveTabProvider";
+import { FaCopy } from "react-icons/fa";
 
 interface AddLeaguePopupProps {
     isVisible: boolean;
@@ -10,37 +15,123 @@ interface AddLeaguePopupProps {
 
 export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopupProps) {
 
-    const [leagueData, setLeagueData] = useState<{
-        type: boolean;
+    interface LeagueData {
+        type: string;
         name: string;
-        maxPlayers: number;
-        code: number;
-    }>({
-        type: false,
+        maxPlayers: number | null;
+    }
+
+    const { activeTab } = useActiveTab();
+
+    const [leagueData, setLeagueData] = useState<LeagueData>({
+        type: "public",
         name: "",
-        maxPlayers: 0,
-        code: 0,
+        maxPlayers: null,
     });
     const [isClosing, setIsClosing] = useState(false);
+    const [displayCode, setDisplayCode] = useState(false);
+    const [invitationLink, setInvitationLink] = useState("");
 
     const closePopup = () => {
         setIsClosing(true);
         setTimeout(() => {
             togglePopup();
+            resetLeagueData();
             setIsClosing(false);
-        }, 500);
+        }, 400);
+    };
+
+    const typeSelect = (type: string) => {
+        setLeagueData((prev) => ({
+            ...prev,
+            type: type,
+        }));
     };
 
     const changeLeagueData = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setLeagueData((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: name === "maxPlayers" ? parseInt(value) : value,
         }));
     };
 
+    const resetLeagueData = () => {
+        setLeagueData({
+            type: "public",
+            name: "",
+            maxPlayers: null,
+        });
+    }
+
     const promptToCreateLeague = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (leagueData.name === "") {
+            toast.error("Please enter a name for your league");
+            return;
+        }
+        if (leagueData.maxPlayers === null)
+            leagueData.maxPlayers = 10;
+        toast.success("League created successfully");
+        console.log(leagueData);
+        setDisplayCode(true);
+        setInvitationLink(`https://p10fantasy.com/join/${leagueData.name}`);
+    }
+
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                toast.success("Copied to clipboard");
+            })
+            .catch((error) => {
+                console.error("Failed to copy text: ", error);
+            });
+    }
+
+    useEffect(() => {
+        if (activeTab === "private-leagues")
+            setLeagueData((prev) => ({
+                ...prev,
+                type: "private",
+            }));
+        else
+            setLeagueData((prev) => ({
+                ...prev,
+                type: "public",
+            }));
+    }, [activeTab]);
+
+    if (displayCode) {
+        return (
+            <div className="popup-fullscreen-bg">
+                <div className={`popup-fullscreen ${isClosing ? "popup-slide-out" : "popup-slide-in"}`}>
+                    <RiCloseLargeLine
+                        onClick={() => closePopup()}
+                        className="absolute top-4 right-4 text-2xl"
+                    />
+                    <h1 className="text-4xl font-bold text-center mt-5">League created successfully</h1>
+                    <h2 className="text-center mt-10">Your invitation link is:</h2>
+                    {/* lien coipiable */}
+                    <div className="grid grid-cols-6 gap-4 mt-4 items-center">
+                        <div className="col-span-5">
+                            <Input
+                                type="text"
+                                value={invitationLink}
+                                disabled={true}
+                            />
+                        </div>
+                        <div className="col-start-6 col-span-1">
+                            <Button onClick={() => copyToClipboard(invitationLink)} color="secondary">
+                                <div className="flex justify-center items-center"><FaCopy className="text-lg" /></div>
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="mt-10">
+                        <Button onClick={() => closePopup()}>Close</Button>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
 
@@ -50,11 +141,24 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
                 <div className={`popup-fullscreen ${isClosing ? "popup-slide-out" : "popup-slide-in"}`}>
                     <RiCloseLargeLine
                         onClick={() => closePopup()}
-                        className="absolute top-4 right-4 text-2xl cursor-pointer"
+                        className="absolute top-4 right-4 text-2xl"
                     />
-                    <h1 className="text-4xl font-bold text-center mt-5">Log in</h1>
-                    <p className="text-center mt-2">Please log in to your account</p>
+                    <h1 className="text-4xl font-bold text-center mt-5">Create your league</h1>
                     <form onSubmit={promptToCreateLeague} className="flex flex-col gap-4 mt-10">
+                        <h2>League type</h2>
+                        <div className="flex gap-4 mt-4 justify-center">
+                            <Chip
+                                label="Public"
+                                isSelected={leagueData.type === "public"}
+                                onClick={() => typeSelect("public")}
+                            />
+                            <Chip
+                                label="Private"
+                                isSelected={leagueData.type === "private"}
+                                onClick={() => typeSelect("private")}
+                            />
+                        </div>
+                        <h2 className="mt-2">name</h2>
                         <Input
                             name="name"
                             type="text"
@@ -62,8 +166,18 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
                             value={leagueData.name}
                             onChange={changeLeagueData}
                         />
+                        <h2 className="mt-2">max players</h2>
+                        <Input
+                            name="maxPlayers"
+                            type="number"
+                            placeholder="10 by default"
+                            value={leagueData.maxPlayers !== null ? String(leagueData.maxPlayers) : ""}
+                            onChange={changeLeagueData}
+                        />
+                        <div className="mt-10">
+                            <Button type="submit">Create</Button>
+                        </div>
                     </form>
-
                 </div>
             </div>
         )

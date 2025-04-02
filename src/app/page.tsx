@@ -4,7 +4,6 @@ import AuthPopup from '@/components/AuthPopup';
 import BetCard from '@/components/BetCard';
 import { useState, useEffect } from 'react';
 import Button from '@/components/common/Button';
-import { ToastContainer } from 'react-toastify';
 
 export default function Home() {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -26,7 +25,6 @@ export default function Home() {
   
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-image">
-      <ToastContainer />
       <BetCard />
       <AuthPopup isVisible={isPopupVisible} togglePopup={togglePopup}/>
       <Button onClick={togglePopup} width="40">Open Auth Popup</Button>
