@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import { ActiveTabProvider } from "@/context/ActiveTabProvider";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthProvider";
+import { ToastContainer } from 'react-toastify';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ToastContainer />
         <AuthProvider>
           <ActiveTabProvider>
             <Header />

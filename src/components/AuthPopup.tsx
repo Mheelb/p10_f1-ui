@@ -7,6 +7,7 @@ import userService from "@/services/userService";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { useAuth } from "@/context/AuthProvider";
 import { toast } from 'react-toastify';
+import { useActiveTab } from "@/context/ActiveTabProvider";
 
 interface AuthPopupProps {
     isVisible: boolean;
