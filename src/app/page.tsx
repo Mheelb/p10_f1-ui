@@ -29,7 +29,7 @@ export default function Home() {
       <ToastContainer />
       <BetCard />
       <AuthPopup isVisible={isPopupVisible} togglePopup={togglePopup}/>
-      <Button onClick={togglePopup} width="40">Open Auth Popup</Button>
+      {/* <Button onClick={togglePopup} width="40">Open Auth Popup</Button> */}
     </div>
   );
 }
