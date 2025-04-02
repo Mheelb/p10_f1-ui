@@ -7,6 +7,12 @@
     text-transform: uppercase;
 }
 
+.button-rounded {
+    border-radius: 50px;
+    height: 5em;
+    width: 5em;
+}
+
 .button.primary {
     background: var(--primary);
     color: var(--primary-white);
