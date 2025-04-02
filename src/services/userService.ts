@@ -10,8 +10,9 @@ function userService() {
 }
 
 const register = async (username: string, email: string, password: string) => {
-  const { data } = await client.mutate({
-    mutation: gql`
+  try {
+    const { data } = await client.mutate({
+      mutation: gql`
       mutation Register($input: RegisterInput!) {
         register(input: $input) {
           user {
@@ -22,29 +23,46 @@ const register = async (username: string, email: string, password: string) => {
         }
       }
     `,
-    variables: { input: { username, email, password } },
-  });
-
-  return data.register.user;
+      variables: { input: { username, email, password } },
+    });
+    return {
+      status: 200,
+      data: data.register.user,
+    };
+  } catch (error) {
+    return {
+      status: 500,
+      error: error,
+    };
+  };
 };
 
-const login = async (username: string, password: string) => {
-  const { data } = await client.mutate({
-    mutation: gql`
-      mutation Login($input: LoginInput!) {
-        login(input: $input) {
-          user {
-            id
-            username
-            email
+const login = async (email: string, password: string) => {
+  try {
+    const { data } = await client.mutate({
+      mutation: gql`
+        mutation Login($input: LoginInput!) {
+          login(input: $input) {
+            user {
+              id
+              username
+              email
+            }
           }
         }
-      }
-    `,
-    variables: { input: { username, password } },
-  });
-
-  return data.login.user;
+      `,
+      variables: { input: { email, password } },
+    });
+    return {
+      status: 200,
+      data: data.login.user,
+    };
+  } catch (error) {
+    return {
+      status: 500,
+      error: error
+    };
+  }
 };
 
 const getAll = async () => {
@@ -59,7 +77,7 @@ const getAll = async () => {
       }
     `,
   });
-    
+
 
   return data.users;
 };
