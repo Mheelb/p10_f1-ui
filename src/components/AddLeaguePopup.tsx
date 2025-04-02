@@ -111,7 +111,6 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
                     />
                     <h1 className="text-4xl font-bold text-center mt-5">League created successfully</h1>
                     <h2 className="text-center mt-10">Your invitation link is:</h2>
-                    {/* lien coipiable */}
                     <div className="grid grid-cols-6 gap-4 mt-4 items-center">
                         <div className="col-span-5">
                             <Input
