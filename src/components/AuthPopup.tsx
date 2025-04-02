@@ -6,6 +6,7 @@ import Button from "./common/Button";
 import userService from "@/services/userService";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { useAuth } from "@/context/AuthProvider";
+import { toast } from 'react-toastify';
 
 interface AuthPopupProps {
     isVisible: boolean;
@@ -15,7 +16,12 @@ interface AuthPopupProps {
 export default function AuthPopup({ isVisible, togglePopup }: AuthPopupProps) {
 
     const router = useRouter();
-    const { login, isAuthenticated } = useAuth();
+    const { login, logout, isAuthenticated } = useAuth();
+
+    const logoutHandler = () => {
+        logout();
+        toast.success("Logged out successfully");
+    }
 
     const [loginData, setLoginData] = useState({
         email: "",
@@ -51,10 +57,10 @@ export default function AuthPopup({ isVisible, togglePopup }: AuthPopupProps) {
             .then((response) => {
                 if (response.status === 200) {
                     login("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTY4MjU2ODAwMH0.fakeSignature");
+                    toast.success("Logged in successfully");
                     closePopup();
-                }
-                else
-                    console.log(response.error);
+                } else
+                    toast.error(response.error.message);
             })
             .catch((error) => {
                 console.error(error);
@@ -65,10 +71,12 @@ export default function AuthPopup({ isVisible, togglePopup }: AuthPopupProps) {
         e.preventDefault();
         userService().register(registerData.username, registerData.email, registerData.password)
             .then((response) => {
-                if (response.status === 200)
+                if (response.status === 200) {
+                    toast.success("Registered successfully");
+                    setLoginData({ email: registerData.email, password: "" });
                     setFormType("login");
-                else
-                    console.log(response.error);
+                } else
+                    toast.error(response.error.message);
             })
             .catch((error) => {
                 console.error("Registration failed", error);
@@ -151,9 +159,8 @@ export default function AuthPopup({ isVisible, togglePopup }: AuthPopupProps) {
                                 </div>
                             </div>
                         ) : (
-                            <h1>deja log</h1>
+                            <Button onClick={() => logoutHandler()}>logout</Button>
                         )}
-
                     </div>
                 </div>
             )}
