@@ -57,7 +57,7 @@ export default function AuthPopup({ isVisible, togglePopup }: AuthPopupProps) {
         userService().login(loginData.email, loginData.password)
             .then((response) => {
                 if (response.status === 200) {
-                    login("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTY4MjU2ODAwMH0.fakeSignature");
+                    login("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTY4MjU2ODAwMH0.fakeSignature", loginData.email);
                     toast.success("Logged in successfully");
                     closePopup();
                 } else
