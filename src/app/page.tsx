@@ -2,7 +2,7 @@
 
 import AuthPopup from '@/components/AuthPopup';
 import BetCard from '@/components/BetCard';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@/components/common/Button';
 import { ToastContainer } from 'react-toastify';
 
@@ -11,6 +11,19 @@ export default function Home() {
   const togglePopup = () => {
     setIsPopupVisible((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (isPopupVisible) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isPopupVisible]);
+  
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-image">
       <ToastContainer />

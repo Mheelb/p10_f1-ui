@@ -99,7 +99,10 @@ export default function AuthPopup({ isVisible, togglePopup }: AuthPopupProps) {
             {isVisible && (
                 <div className="popup-fullscreen-bg">
                     <div className={`popup-fullscreen ${isClosing ? "popup-slide-out" : "popup-slide-in"}`}>
-                        <RiCloseLargeLine onClick={() => closePopup()} />
+                        <RiCloseLargeLine
+                            onClick={() => closePopup()}
+                            className="absolute top-4 right-4 text-2xl cursor-pointer"
+                        />
                         {!isAuthenticated ? (
                             <div>
                                 <div id="login" className={formType === "login" ? "" : "hidden"}>
