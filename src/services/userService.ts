@@ -55,7 +55,7 @@ const login = async (email: string, password: string) => {
     });
     return {
       status: 200,
-      data: data.login.user,
+      data: data,
     };
   } catch (error) {
     return {
