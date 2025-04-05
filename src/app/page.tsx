@@ -27,7 +27,6 @@ export default function Home() {
     <div className="flex flex-col justify-center items-center h-screen bg-image">
       <BetCard />
       <AuthPopup isVisible={isPopupVisible} togglePopup={togglePopup}/>
-      <Button onClick={togglePopup} width="40">Open Auth Popup</Button>
     </div>
   );
 }
