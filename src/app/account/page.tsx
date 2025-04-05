@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthProvider";
 import AuthPopup from "@/components/AuthPopup";
 import userService from "@/services/userService";
+import Button from "@/components/common/Button";
+import { toast } from 'react-toastify';
 
 export default function Account() {
 
@@ -17,6 +19,15 @@ export default function Account() {
       setIsPopupVisible((prev) => !prev);
     };
 
+    const { logout } = useAuth();
+
+    const logoutHandler = () => {
+        logout();
+        setIsPopupVisible(false);
+        toast.success("Logged out successfully");
+    }
+
+
     const getUserData = async () => {
         if (email) {
             userService().getAll()
@@ -28,8 +39,6 @@ export default function Account() {
                                 username: user.username,
                                 email: user.email,
                             });
-                        } else {
-                            console.error("User not found");
                         }
                     } else {
                         console.error("Error fetching user data");
@@ -62,15 +71,24 @@ export default function Account() {
       }, [isPopupVisible]);
 
     return (
-        <div className="">
-            <h1 className="text-2xl font-bold mb-4">Account Information</h1>
+        <div className="max-w-md mx-auto mt-10 p-6 bg-gray-100 rounded-lg shadow-lg">
+            <h1 className="text-2xl font-bold mb-4 text-center">Account Information</h1>
             {isAuthenticated ? (
                 <div className="bg-white p-6 rounded-lg shadow-md">
-                    <p><strong>Username:</strong> {userData.username}</p>
-                    <p><strong>Email:</strong> {userData.email}</p>
+                    <p className="mb-2"><strong>Username:</strong> JohnDoe</p>
+                    <p className="mb-4"><strong>Email:</strong> johndoe@example.com</p>
+                    <Button onClick={logoutHandler} color="secondary" width="40">
+                        Logout
+                    </Button>
                 </div>
             ) : (
-                <AuthPopup isVisible={isPopupVisible} togglePopup={togglePopup}/>
+                <>
+                    <p className="text-center text-gray-600 mb-4">Please log in to view your account information.</p>
+                    <Button onClick={togglePopup} color="primary" width="40">
+                        Log In
+                    </Button>
+                    <AuthPopup isVisible={isPopupVisible} togglePopup={togglePopup} />
+                </>
             )}
         </div>
     )
