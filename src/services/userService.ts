@@ -66,20 +66,28 @@ const login = async (email: string, password: string) => {
 };
 
 const getAll = async () => {
-  const { data } = await client.query({
-    query: gql`
-      query {
-        users {
-          id
-          username
-          email
+  try {
+    const { data } = await client.query({
+      query: gql`
+        query {
+          users {
+            id
+            username
+            email
+          }
         }
-      }
-    `,
-  });
-
-
-  return data.users;
+      `,
+    });
+    return {
+      status: 200,
+      data: data.users,
+    };
+  } catch (error) {
+    return {
+      status: 500,
+      error: error,
+    };
+  }
 };
 
 export default userService;
