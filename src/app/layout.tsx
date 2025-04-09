@@ -31,13 +31,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ToastContainer />
-        <AuthProvider>
-          <ActiveTabProvider>
-            <Header />
-            {children}
-          </ActiveTabProvider>
-        </AuthProvider>
+        <ActiveTabProvider>
+          <Header />
+          {children}
+        </ActiveTabProvider>
       </body>
     </html>
   );
