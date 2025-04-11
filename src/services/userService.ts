@@ -13,28 +13,32 @@ const register = async (username: string, email: string, password: string) => {
   try {
     const { data } = await client.mutate({
       mutation: gql`
-      mutation Register($input: RegisterInput!) {
-        register(input: $input) {
-          user {
-            id
-            username
-            email
+        mutation Register($input: RegisterInput!) {
+          register(input: $input) {
+            user {
+              email
+            }
+            error {
+              message
+              code
+            }
           }
         }
-      }
-    `,
+      `,
       variables: { input: { username, email, password } },
     });
+
     return {
-      status: 200,
-      data: data.register.user,
+      status: data.register.error ? "error" : 200,
+      error: data.register.error || null,
+      data: data.register.user || null,
     };
   } catch (error) {
     return {
-      status: 500,
+      status: "error",
       error: error,
     };
-  };
+  }
 };
 
 const login = async (email: string, password: string) => {
@@ -43,24 +47,27 @@ const login = async (email: string, password: string) => {
       mutation: gql`
         mutation Login($input: LoginInput!) {
           login(input: $input) {
-            user {
-              id
-              username
-              email
+            token
+            error {
+              httpStatus
+              message
+              code
             }
           }
         }
       `,
       variables: { input: { email, password } },
     });
+
     return {
-      status: 200,
-      data: data,
+      status: data.login.error ? "error" : 200,
+      token: data.login.token || null,
+      error: data.login.error || null,
     };
   } catch (error) {
     return {
-      status: 500,
-      error: error
+      status: "error",
+      error: error,
     };
   }
 };
@@ -70,7 +77,7 @@ const getAll = async () => {
     const { data } = await client.query({
       query: gql`
         query {
-          users {
+          getAllUsers {
             id
             username
             email
@@ -80,7 +87,7 @@ const getAll = async () => {
     });
     return {
       status: 200,
-      data: data.users,
+      data: data.getAllUsers || null,
     };
   } catch (error) {
     return {

@@ -57,11 +57,13 @@ export default function AuthPopup({ isVisible, togglePopup }: AuthPopupProps) {
         userService().login(loginData.email, loginData.password)
             .then((response) => {
                 if (response.status === 200) {
-                    login("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTY4MjU2ODAwMH0.fakeSignature", loginData.email);
                     toast.success("Logged in successfully");
-                    closePopup();
-                } else
+                    login(response.token, loginData.email);
+                    setLoginData({ email: "", password: "" });
+                    togglePopup();
+                } else {
                     toast.error(response.error.message);
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -74,13 +76,13 @@ export default function AuthPopup({ isVisible, togglePopup }: AuthPopupProps) {
             .then((response) => {
                 if (response.status === 200) {
                     toast.success("Registered successfully");
-                    setLoginData({ email: registerData.email, password: "" });
+                    setLoginData({ email: response.data.email, password: "" });
                     setFormType("login");
                 } else
                     toast.error(response.error.message);
             })
             .catch((error) => {
-                console.error("Registration failed", error);
+                console.error(error);
             });
     };
 
