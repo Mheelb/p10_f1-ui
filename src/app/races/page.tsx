@@ -5,13 +5,13 @@ import { useEffect, useState } from 'react';
 import RaceCard from '@/components/RaceCard';
 import Link from 'next/link';
 import { faker } from '@faker-js/faker';
-import { Race } from '@/types/GP'
+import { GP } from '@/types/GP'
 
 export default function Races() {
 
   const { activeTab, setActiveTab } = useActiveTab();
-  const [pastRaces, setPastRaces] = useState<Race[]>([]);
-  const [upcomingRaces, setUpcomingRaces] = useState<Race[]>([]);
+  const [pastRaces, setPastRaces] = useState<GP[]>([]);
+  const [upcomingRaces, setUpcomingRaces] = useState<GP[]>([]);
 
   //faker
   function generateRaceResult() {

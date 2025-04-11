@@ -8,24 +8,6 @@ const Race = () => {
   const router = useRouter();
   const { id } = useParams<{ id: string }>();
 
-  interface Race {
-    competition: {
-      name: string;
-      location: {
-        country: string;
-      };
-    };
-    date: string;
-    results: {
-      driver: {
-        name: string;
-      };
-      team: {
-        name: string;
-      };
-    }[];
-  }
-
   const fakeRace = {
     competition: {
       name: "Bahrain Grand Prix",
