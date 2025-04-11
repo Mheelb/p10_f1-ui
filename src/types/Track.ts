@@ -1,4 +1,4 @@
-interface Track {
+export interface Track {
     id: string;
     trackName: string;
     countryName: string;

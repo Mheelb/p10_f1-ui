@@ -1,6 +1,6 @@
 import { UserLeague } from './UserLeague';
 
-interface League {
+export interface League {
     id: string;
     name: string;
     privateLeague: boolean;

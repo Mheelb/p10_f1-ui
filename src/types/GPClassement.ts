@@ -1,7 +1,7 @@
 import { Pilote } from './Pilote';
 import { GP } from './GP';
 
-interface GPClassement {
+export interface GPClassement {
     id: string;
     race: GP;
     pilote: Pilote;

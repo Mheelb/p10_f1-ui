@@ -1,6 +1,6 @@
 import { Pilote } from './Pilote';
 
-interface Ecurie {
+export interface Ecurie {
     id: string;
     name: string;
     logo: string;

@@ -2,7 +2,7 @@ import { GP } from "./GP";
 import { User } from "./User";
 import { Pilote } from "./Pilote";
 
-interface BetSelectionResult {
+export interface BetSelectionResult {
     id: string;
     user: User;
     gp: GP;
