@@ -58,6 +58,8 @@ export default function Races() {
               pilote: generatePilote("01", "Max Verstappen", "VER", "Red Bull Racing", "#0600EF"),
               isDNF: false,
               position: 1,
+              time: "1:30:00",
+              points: 25,
             },
             {
               id: "classement_02",
@@ -65,6 +67,8 @@ export default function Races() {
               pilote: generatePilote("02", "Lewis Hamilton", "HAM", "Mercedes", "#00D2BE"),
               isDNF: false,
               position: 2,
+              time: "1:31:00",
+              points: 18,
             },
             {
               id: "classement_03",
@@ -72,6 +76,8 @@ export default function Races() {
               pilote: generatePilote("03", "Charles Leclerc", "LEC", "Ferrari", "#DC0000"),
               isDNF: false,
               position: 3,
+              time: "1:32:00",
+              points: 15,
             },
           ]
         : undefined,

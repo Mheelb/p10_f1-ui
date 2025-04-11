@@ -7,4 +7,6 @@ export interface GPClassement {
     pilote: Pilote;
     isDNF: boolean;
     position: number;
+    time: string;
+    points: number;
 }
