@@ -5,42 +5,11 @@ import { useEffect, useState } from 'react';
 import RaceCard from '@/components/RaceCard';
 import Link from 'next/link';
 import { faker } from '@faker-js/faker';
+import { Race } from '@/types/GP'
 
 export default function Races() {
 
   const { activeTab, setActiveTab } = useActiveTab();
-  interface Race {
-    id: number;
-    round: number;
-    competition: {
-      name: string;
-      country: string;
-    };
-    circuit: {
-      name: string;
-      image: string;
-    };
-    date: string;
-    result?: {
-      driver_name: string;
-      driver_trigram: string;
-      driver_team: {
-        name: string;
-        color: string;
-      };
-      timer: string;
-      position: string;
-      points: number;
-    }[];
-    p10?: {
-      name: string;
-      trigram: string;
-      team: {
-        color: string;
-      };
-    };
-  }
-  
   const [pastRaces, setPastRaces] = useState<Race[]>([]);
   const [upcomingRaces, setUpcomingRaces] = useState<Race[]>([]);
 

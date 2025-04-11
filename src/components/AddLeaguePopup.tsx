@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Button from "./common/Button";
 import { useActiveTab } from "@/context/ActiveTabProvider";
 import { FaCopy } from "react-icons/fa";
+import { League } from "@/types/League";
 
 interface AddLeaguePopupProps {
     isVisible: boolean;
@@ -15,17 +16,15 @@ interface AddLeaguePopupProps {
 
 export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopupProps) {
 
-    interface LeagueData {
-        type: string;
-        name: string;
-        maxPlayers: number | null;
-    }
-
     const { activeTab } = useActiveTab();
 
-    const [leagueData, setLeagueData] = useState<LeagueData>({
-        type: "public",
+    const [leagueData, setLeagueData] = useState<League>({
+        id: "",
         name: "",
+        privateLeague: false,
+        sharedLink: "",
+        active: true,
+        users: [],
         maxPlayers: null,
     });
     const [isClosing, setIsClosing] = useState(false);
@@ -41,10 +40,10 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
         }, 400);
     };
 
-    const typeSelect = (type: string) => {
+    const typeSelect = (privateLeague: boolean) => {
         setLeagueData((prev) => ({
             ...prev,
-            type: type,
+            privateLeague: false,
         }));
     };
 
@@ -58,8 +57,12 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
 
     const resetLeagueData = () => {
         setLeagueData({
-            type: "public",
+            id: "",
             name: "",
+            privateLeague: false,
+            sharedLink: "",
+            active: true,
+            users: [],
             maxPlayers: null,
         });
     }
@@ -92,12 +95,12 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
         if (activeTab === "private-leagues")
             setLeagueData((prev) => ({
                 ...prev,
-                type: "private",
+                privateLeague: true,      
             }));
         else
             setLeagueData((prev) => ({
                 ...prev,
-                type: "public",
+                privateLeague: false,
             }));
     }, [activeTab]);
 
@@ -148,16 +151,16 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
                         <div className="flex gap-4 mt-4 justify-center">
                             <Chip
                                 label="Public"
-                                isSelected={leagueData.type === "public"}
-                                onClick={() => typeSelect("public")}
+                                isSelected={leagueData.privateLeague === false}
+                                onClick={() => typeSelect(false)}
                             />
                             <Chip
                                 label="Private"
-                                isSelected={leagueData.type === "private"}
-                                onClick={() => typeSelect("private")}
+                                isSelected={leagueData.privateLeague === true}
+                                onClick={() => typeSelect(true)}
                             />
                         </div>
-                        <h2 className="mt-2">name</h2>
+                        <h2 className="-mt-2">name</h2>
                         <Input
                             name="name"
                             type="text"
@@ -173,7 +176,7 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
                             value={leagueData.maxPlayers !== null ? String(leagueData.maxPlayers) : ""}
                             onChange={changeLeagueData}
                         />
-                        <div className="mt-10">
+                        <div className="mt-5">
                             <Button type="submit">Create</Button>
                         </div>
                     </form>
