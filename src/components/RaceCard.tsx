@@ -3,81 +3,59 @@
 import { FC, useEffect, useState } from 'react';
 import { IoIosArrowForward } from "react-icons/io";
 import Chip from '@/components/common/Chip';
+import { GP } from '@/types/GP';
 
 interface RaceCardProps {
-    race: {
-        id: number;
-        round: number;
-        competition: {
-            name: string;
-            country: string;
-        };
-        circuit: {
-            image: string;
-        };
-        date: string;
-        result?:{
-            driver_name: string;
-            driver_trigram: string
-            driver_team: {
-                name: string;
-                color: string;
-            }
-            timer: string;
-            position: string;
-            points: number;
-        }[];
-        p10?: {
-            trigram: string;
-            team: {
-                color: string;
-            };
-        };
-    };
-    type: string;
+  race: GP;
+  type: 'past' | 'upcoming';
 }
 
 const RaceCard: FC<RaceCardProps> = ({ race, type }) => {
-    const [day, setDay] = useState<string | null>(null);
-    const [month, setMonth] = useState<string | null>(null);
+  const [day, setDay] = useState<string | null>(null);
+  const [month, setMonth] = useState<string | null>(null);
 
-    useEffect(() => {
-        const dateObj = new Date(race.date);
-        setDay(dateObj.toLocaleDateString('en-GB', { day: '2-digit' }));
-        setMonth(dateObj.toLocaleDateString('en-GB', { month: 'short' }));
-    }, [race.date]);
+  useEffect(() => {
+    const dateObj = new Date(race.dateTime);
+    setDay(dateObj.toLocaleDateString('en-GB', { day: '2-digit' }));
+    setMonth(dateObj.toLocaleDateString('en-GB', { month: 'short' }));
+  }, [race.dateTime]);
 
-    if (!day || !month) return null; // Évite le rendu avant la mise à jour du state
+  if (!day || !month) return null;
 
-    return (
-        <div className="race-card w-90">
-            <div className='container flex justify-between items-center'>
-                <div className='flex flex-col items-center date-section'>
-                    <h3>{day}</h3>
-                    <Chip label={month} />
-                </div>
-                <div className='flex flex-col flex-grow'>
-                    <div className='flex justify-between items-center'>
-                        <div>
-                            <h2>round {race.round}</h2>
-                            <h1>{race.competition.country}</h1>
-                            <p>{race.competition.name}</p>
-                        </div>
-                        <IoIosArrowForward className="arrow text-2xl" />
-                    </div>
-                    {type === 'past' && race.p10 && (
-                        <div className='flex items-center mt-2'>
-                            <Chip label='P10' color="green" />
-                            <div className='trigram flex items-center'>
-                                <div className='team-color-rectangle' style={{ backgroundColor: race.p10.team.color }}></div>
-                                <h3 className='team-name'>{race.p10.trigram}</h3>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </div>
+  return (
+    <div className="race-card w-90">
+      <div className="container flex justify-between items-center">
+        <div className="flex flex-col items-center date-section">
+          <h3>{day}</h3>
+          <Chip label={month} />
         </div>
-    );
+        <div className="flex flex-col flex-grow">
+          <div className="flex justify-between items-center">
+            <div>
+              <h2>Round {race.round}</h2>
+              <h1>{race.track.countryName}</h1>
+              <p>{race.name}</p>
+            </div>
+            <IoIosArrowForward className="arrow text-2xl" />
+          </div>
+          {type === 'past' && race.classement && (
+            <div className="flex items-center mt-2">
+              <Chip label="P10" color="green" />
+              <div className="trigram flex items-center">
+                <div
+                  className="team-color-rectangle"
+                  style={{
+                    backgroundColor: race.classement[0].pilote.ecurie.color,
+                  }}
+                ></div>
+                <h3 className="team-name">{race.classement[0].pilote.trigram}</h3>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default RaceCard;
