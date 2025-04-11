@@ -9,6 +9,8 @@ import { useAuth } from '@/context/AuthProvider';
 import AuthPopup from '@/components/AuthPopup';
 import { toast } from 'react-toastify';
 import { GP } from '@/types/GP';
+import { useRouter } from 'next/navigation';
+
 
 const BetCard: FC = () => {
     const [grandPrix, setGrandPrix] = useState<GP>({
@@ -30,6 +32,7 @@ const BetCard: FC = () => {
     const [dateTime, setDateTime] = useState<Date>(new Date());
     const { isAuthenticated } = useAuth();
     const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const router = useRouter();
 
     const togglePopup = () => {
         setIsPopupVisible((prev) => !prev);
@@ -38,6 +41,7 @@ const BetCard: FC = () => {
     const bettingHandler = () => {
         if (isAuthenticated) {
             console.log('Betting...');
+            router.push('/vote');
         } else {
             toast.error('Please login to place a bet');
             togglePopup();

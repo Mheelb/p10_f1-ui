@@ -37,7 +37,8 @@ const Header: FC<HeaderProps> = () => {
     };
 
     return (
-        <header className={pathname === "/" || pathname === "/account" || pathname.includes('/races/') ? "h-25" : "h-35"}>
+        <header className={pathname === "/" || pathname === "/account" || pathname.includes('/races/') || pathname === "/vote" 
+            ? "h-25" : "h-35"}>
             <div className="flex items-center justify-between w-full">
                 {pathname !== "/" && (
                     <IoIosArrowBack
@@ -58,6 +59,8 @@ const Header: FC<HeaderProps> = () => {
                                 ? name
                                 : pathname === "/leagues" 
                                 ? "leagues"
+                                : pathname === "/vote" 
+                                ? "vote"
                                 : "404"}
                         </h1>
                     )}
