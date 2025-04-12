@@ -42,6 +42,26 @@
     margin: 2px;
 }
 
+.league-card {
+    background: white;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+.league-card .arrow {
+    color: var(--primary)
+}
+
+.league-card .join-section {
+    padding-right: 1em;
+    margin-right: 1em;
+    border-right: 1px dashed var(--secondary-grey);
+}
+
 .race-card {
     background: white;
     border-bottom-right-radius: 10px;

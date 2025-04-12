@@ -102,3 +102,14 @@
   .popup-slide-out {
     animation: slideOutToBottom 0.5s ease-out;
   }
+
+  .search-bar {
+    padding: 10px;
+    background-color: white;
+    border-radius: 40px;
+  }
+
+  .search-bar:focus {
+    outline: none;
+    border: 1px solid var(--primary);
+  }
