@@ -1,7 +1,7 @@
 "use client";
 import { League } from "@/types/League";
 import { useEffect, useState } from "react";
-import BetCard from "../BetCard";
+import BetCard from "../../BetCard";
 import { LeagueStats } from "./LeagueStats";
 
 interface GeneralLeagueProps {

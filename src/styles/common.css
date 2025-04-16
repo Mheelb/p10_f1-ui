@@ -29,6 +29,14 @@
     opacity: 40%;
 }
 
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    background: var(--primary-white);
+    border: 1.5px solid var(--primary);
+}
+
 .input {
     border-radius: 5px;
     padding: 10px;

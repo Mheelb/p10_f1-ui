@@ -4,7 +4,8 @@ import { useParams } from "next/navigation";
 import { useAuth } from "@/context/AuthProvider";
 import { useActiveTab } from "@/context/ActiveTabProvider";
 import type { League } from "@/types/League";
-import GeneralLeague from "@/components/leagues/GeneralLeague";
+import GeneralLeague from "@/components/leagues/league/GeneralLeague";
+import SettingsLeague from "@/components/leagues/league/SettingsLeague";
 
 export default function League() {
     const { name } = useParams();
@@ -20,7 +21,7 @@ export default function League() {
             users: [],
             maxParticipants: 10,
             isPrivate: false,
-            sharedLink: ""
+            sharedLink: "HDS6SQN"
         } as League);
     };
 
@@ -36,6 +37,8 @@ export default function League() {
     } else if (activeTab === "ranking") {
         return (<div></div>)
     } else if (activeTab === "settings") {
-        return (<div></div>)
+        return (
+            <SettingsLeague league={leagueData}/>
+        )
     }
 }
