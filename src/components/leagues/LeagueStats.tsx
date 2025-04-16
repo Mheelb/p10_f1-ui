@@ -82,13 +82,6 @@ export function LeagueStats() {
 
     const getTopThreeUsers = () => {
         // Simulate fetching top three users from an API or database
-        // export interface User {
-        //     id: string;
-        //     email: string;
-        //     username: string;
-        //     leagues?: UserLeague[];
-        //     bets?: BetSelectionResult[];
-        // }
         return [
             {
                 id: "1",

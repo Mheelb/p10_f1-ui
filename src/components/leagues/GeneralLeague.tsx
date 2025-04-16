@@ -12,7 +12,7 @@ export default function GeneralLeague({ league }: GeneralLeagueProps) {
 
     return (
         <div className="flex flex-col items-center">
-            <div className="mt-10 mb-5" >
+            <div className="mt-10" >
             <BetCard/>
             </div>
             <div className="mb-20" >
