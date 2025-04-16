@@ -7,15 +7,13 @@ import { League } from "@/types/League";
 
 interface LeagueCardProps {
   league: League;
+  onJoin: (league: League) => void;
 }
 
-const LeagueCard: FC<LeagueCardProps> = ({ league }) => {
+const LeagueCard: FC<LeagueCardProps> = ({ league, onJoin }) => {
   return (
-    <div className="league-card w-90">
+    <div className="league-card w-90" onClick={() => onJoin(league)}>
       <div className="container flex justify-between items-center">
-        <div className="flex flex-col items-center join-section">
-          <Chip label="Join" color="blue" />
-        </div>
         <div className="flex flex-col flex-grow">
           <div className="flex justify-between items-center">
             <div>

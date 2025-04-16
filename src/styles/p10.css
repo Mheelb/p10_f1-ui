@@ -5,6 +5,19 @@
     height: 100vh;
 }
 
+.league-race {
+    padding: 1em;
+    border-bottom: 1px dashed black;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1em;
+    margin: 1em;
+}
+
 .bet-card {
     background: white;
     border-radius: 10px;
@@ -48,8 +61,7 @@
     border-top-right-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 1em;
-    margin-bottom: 1em;
-    margin-top: 1em;
+    margin: 0.5em 0;
 }
 
 .league-card .arrow {
@@ -68,8 +80,7 @@
     border-top-right-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 1em;
-    margin-bottom: 1em;
-    margin-top: 1em;
+    margin: 0.5em 0;
 }
 
 .race-card .arrow {

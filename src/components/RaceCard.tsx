@@ -8,9 +8,10 @@ import { GP } from '@/types/GP';
 interface RaceCardProps {
   race: GP;
   type: 'past' | 'upcoming';
+  page: 'league' | 'races';
 }
 
-const RaceCard: FC<RaceCardProps> = ({ race, type }) => {
+const RaceCard: FC<RaceCardProps> = ({ race, type, page }) => {
   const [day, setDay] = useState<string | null>(null);
   const [month, setMonth] = useState<string | null>(null);
 
@@ -23,9 +24,9 @@ const RaceCard: FC<RaceCardProps> = ({ race, type }) => {
   if (!day || !month) return null;
 
   return (
-    <div className="race-card w-90">
+    <div className={`${page === 'league' ? 'w-80 league-race' : 'race-card w-90'}`}>
       <div className="container flex justify-between items-center">
-        <div className="flex flex-col items-center date-section">
+        <div className="flex flex-col items-center date-section mr-4">
           <h3>{day}</h3>
           <Chip label={month} />
         </div>
@@ -36,7 +37,9 @@ const RaceCard: FC<RaceCardProps> = ({ race, type }) => {
               <h1>{race.track.countryName}</h1>
               <p>{race.name}</p>
             </div>
-            <IoIosArrowForward className="arrow text-2xl" />
+            {page === "races" && (
+              <IoIosArrowForward className="arrow text-2xl" />
+            )}
           </div>
           {type === 'past' && race.classement && (
             <div className="flex items-center mt-2">

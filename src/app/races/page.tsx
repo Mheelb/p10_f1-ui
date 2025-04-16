@@ -101,11 +101,11 @@ export default function Races() {
     <div>
       {activeTab === 'upcoming'
         ? upcomingRaces.map((race) => (
-            <RaceCard key={race.id} race={race} type="upcoming" />
+            <RaceCard key={race.id} race={race} type="upcoming" page='races'/>
           ))
         : pastRaces.map((race) => (
             <Link key={race.id} href={`/races/${race.id}?name=${race.track.countryName}`}>
-              <RaceCard race={race} type="past" />
+              <RaceCard race={race} type="past" page='races'/>
             </Link>
           ))}
     </div>

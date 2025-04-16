@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from 'next/navigation';
-import Input from "./common/Input";
-import Button from "./common/Button";
+import Input from "../common/Input";
+import Button from "../common/Button";
 import userService from "@/services/userService";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { useAuth } from "@/context/AuthProvider";

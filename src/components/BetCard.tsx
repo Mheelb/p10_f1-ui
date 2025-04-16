@@ -6,7 +6,7 @@ import { getCode } from 'country-list';
 import Flag from 'react-world-flags';
 import Timer from '@/components/common/Timer';
 import { useAuth } from '@/context/AuthProvider';
-import AuthPopup from '@/components/AuthPopup';
+import AuthPopup from '@/components/popups/AuthPopup';
 import { toast } from 'react-toastify';
 import { GP } from '@/types/GP';
 import { useRouter } from 'next/navigation';

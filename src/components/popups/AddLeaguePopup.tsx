@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
-import Input from "./common/Input";
-import Chip from "./common/Chip";
+import Input from "../common/Input";
+import Chip from "../common/Chip";
 import { toast } from "react-toastify";
-import Button from "./common/Button";
+import Button from "../common/Button";
 import { useActiveTab } from "@/context/ActiveTabProvider";
 import { FaCopy } from "react-icons/fa";
 import { League } from "@/types/League";

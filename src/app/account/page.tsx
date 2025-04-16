@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthProvider";
-import AuthPopup from "@/components/AuthPopup";
+import AuthPopup from "@/components/popups/AuthPopup";
 import userService from "@/services/userService";
 import Button from "@/components/common/Button";
 import { toast } from "react-toastify";

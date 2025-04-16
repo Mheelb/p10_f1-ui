@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthProvider";
 import AddBtn from "@/components/buttons/AddBtn";
-import AddLeaguePopup from "@/components/AddLeaguePopup";
+import AddLeaguePopup from "@/components/popups/AddLeaguePopup";
 import Button from "@/components/common/Button";
-import AuthPopup from "@/components/AuthPopup";
+import AuthPopup from "@/components/popups/AuthPopup";
 import { useActiveTab } from "@/context/ActiveTabProvider";
 import PublicLeague from "@/components/leagues/PublicLeague";
 
