@@ -11,6 +11,7 @@ import { FaCopy } from "react-icons/fa";
 import { League } from "@/types/League";
 import leagueService from "@/services/leagueService";
 import eventEmitter from "@/utils/eventEmitter";
+import { useAuth } from "@/context/AuthProvider";
 
 interface AddLeaguePopupProps {
   isVisible: boolean;
@@ -18,13 +19,14 @@ interface AddLeaguePopupProps {
 }
 
 export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopupProps) {
+  const { userId } = useAuth();
   const { activeTab } = useActiveTab();
 
   const [leagueToSubmit, setLeagueToSubmit] = useState<League>({
     id: "",
     leagueName: "",
     isPrivate: false,
-    sharedLink: "",
+    joinCode: "",
     users: [],
     maxParticipants: 10,
   });
@@ -46,7 +48,6 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
     setLeagueToSubmit((prev) => ({
       ...prev,
       isPrivate,
-      isPrivate,
     }));
   };
 
@@ -63,7 +64,7 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
       id: "",
       leagueName: "",
       isPrivate: false,
-      sharedLink: "",
+      joinCode: "",
       users: [],
       maxParticipants: 10,
     });
@@ -92,10 +93,14 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
     promptToCreateLeague(league);
   };
 
+
   const promptToCreateLeague = (leagueToCreate: League) => {
     leagueService().createLeague(leagueToCreate.leagueName, leagueToCreate.isPrivate, leagueToCreate.maxParticipants)
       .then((response) => {
         if (response.status === 200) {
+          console.log(response.data);
+          
+          leagueService().addUserToLeague(response.data.id, userId ? userId : "", true)
           const joinCode = response.data.joinCode;
           toast.success("League created successfully");
           setInvitationLink(`https://p10fantasy.com/join/${joinCode}`);

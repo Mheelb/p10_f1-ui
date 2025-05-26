@@ -22,22 +22,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const email = localStorage.getItem("email");
+    const userId = localStorage.getItem("userId");
     
     if (token && email) {
       setIsAuthenticated(true);
       setEmail(email);
-    }
-  }, []);
-
-    useEffect(() => {
-    // Vérifier l'authentification stockée lors du chargement
-    const storedEmail = localStorage.getItem('email');
-    const storedUserId = localStorage.getItem('userId'); // Récupérer l'ID stocké
-    
-    if (storedEmail) {
-      setIsAuthenticated(true);
-      setEmail(storedEmail);
-      setUserId(storedUserId); // Utiliser l'ID stocké s'il existe
+      setUserId(userId);
     }
   }, []);
 

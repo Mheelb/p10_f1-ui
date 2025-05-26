@@ -175,6 +175,7 @@ const createLeague = async (leagueName: string, isPrivate: boolean, maxParticipa
             }
             league {
               joinCode
+              id
             }
           }
         }
