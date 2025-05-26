@@ -6,11 +6,11 @@ import { getCode } from 'country-list';
 import Flag from 'react-world-flags';
 import Timer from '@/components/common/Timer';
 import { useAuth } from '@/context/AuthProvider';
-import AuthPopup from '@/components/AuthPopup';
-import { toast } from 'react-toastify';
 import { GP } from '@/types/GP';
-import { useRouter } from 'next/navigation';
-
+import { usePathname, useRouter } from 'next/navigation';
+import { User } from '@/types/User';
+import { BetSelectionResult } from '@/types/BetSelectionResult';
+import BetPopup from '@/components/BetPopup';
 
 const BetCard: FC = () => {
     const [grandPrix, setGrandPrix] = useState<GP>({
@@ -28,11 +28,27 @@ const BetCard: FC = () => {
         pilotes: [],
     });
 
+    const [user, setUser] = useState<User>({
+        id: '',
+        email: '',
+        username: '',
+        leagues: [],
+        bets: [],
+    });
+
     const [countryCode, setCountryCode] = useState<string>('');
     const [dateTime, setDateTime] = useState<Date>(new Date());
     const { isAuthenticated } = useAuth();
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const router = useRouter();
+    const curentPath = usePathname();
+
+    const isBet = () => {
+        if(user?.bets?.some((bet: BetSelectionResult) => bet.gp.id === grandPrix.id )) {
+            return true;
+        }
+        return false;
+    };
 
     const togglePopup = () => {
         setIsPopupVisible((prev) => !prev);
@@ -41,7 +57,7 @@ const BetCard: FC = () => {
     const bettingHandler = () => {
         if (isAuthenticated) {
             console.log('Betting...');
-            router.push('/vote');
+            router.push('/bet');
         } else {
             toast.error('Please login to place a bet');
             togglePopup();
@@ -165,6 +181,49 @@ const BetCard: FC = () => {
         });
     };
 
+    const getUser = async () => {
+        setUser ({
+            id: 'test1',
+            email: 'user.test@gmail.com',
+            username: 'test',
+            leagues: [],
+            bets: [
+                {
+                    id: 'bet1',
+                    user: {} as User,
+                    gp: {
+                        id: 1,
+                        name: "Monaco Grand Prix",
+                        round: 3,
+                        track: {
+                            id: "track_01",
+                            trackName: "Circuit de Monaco",
+                            countryName: "Monaco",
+                            pictureCountry: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Flag_of_Monaco.svg/1280px-Flag_of_Monaco.svg.png",
+                            pictureTrack: "https://i.imgur.com/vz3pcms.jpeg",
+                        },
+                        dateTime: "2025-05-25T14:00:00Z",
+                        pilotes: [],
+                    },
+                    pointsP10: 25,
+                    piloteP10: {
+                        id: 'pilote_01',
+                        name: 'Max Verstappen',
+                        picture: 'https://example.com/pilotes/verstappen.jpg',
+                        trigram: 'VER',
+                        ecurie: {
+                            id: 'ecurie_01',
+                            name: 'Red Bull Racing',
+                            logo: 'https://example.com/logos/redbull.png',
+                            color: '#0600EF',
+                            pilotes: [],
+                        },
+                    },
+                },
+            ],
+        })
+    };
+
     const getCountryCode = (countryName: string) => {
         const code = getCode(countryName);
         return code ? code.toLowerCase() : 'unknown';
@@ -173,10 +232,14 @@ const BetCard: FC = () => {
     const getDateTime = (dateTime: string) => {
         const date = new Date(dateTime);
         return date;
-    }
+    };
 
     useEffect(() => {
         getGrandPrixData();
+    }, []);
+
+    useEffect(() => {
+        getUser();
     }, []);
 
     useEffect(() => {
@@ -207,8 +270,49 @@ const BetCard: FC = () => {
                 )}
             </div>
             <Timer dateCircuit={dateTime} />
-            <Button onClick={bettingHandler}>Bet</Button>
-            <AuthPopup isVisible={isPopupVisible} togglePopup={togglePopup} />
+
+            {curentPath === '/bet' ? (
+                <div>
+                    { isBet() ? (
+                        <div>
+                            {user?.bets?.map((bet: BetSelectionResult) => (
+                                <div key={bet.id} className="bet-info">
+                                    <p>Your bet : <b>{bet.piloteP10.name}</b></p>
+                                </div>
+                            ))}
+
+                            {!isPopupVisible ? (
+                                <Button onClick={togglePopup}>Modify</Button>
+                            ): (
+                                <BetPopup isVisible={isPopupVisible} togglePopup={togglePopup} />
+                            )}
+                        </div>
+                    ) : (
+                        <div>
+                            {!isPopupVisible ? (
+                                <Button onClick={togglePopup}>Bet</Button>
+                            ): (
+                                <BetPopup isVisible={isPopupVisible} togglePopup={togglePopup} />
+                            )}
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <div>
+                    {!isAuthenticated || (isAuthenticated && !isBet) ? (
+                        <Button onClick={bettingHandler}>Bet</Button>
+                    ) : (
+                        <div>
+                            {user?.bets?.map((bet: BetSelectionResult) => (
+                                <div key={bet.id} className="bet-info">
+                                    <p>Your bet : <b>{bet.piloteP10.name}</b></p>
+                                </div>
+                            ))}
+                            <Button onClick={bettingHandler}>Modify</Button>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

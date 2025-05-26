@@ -42,6 +42,14 @@
     margin: 2px;
 }
 
+.bet-card .bet-info p{
+    padding: 1em;
+    font-family: 'Formula-1-Regular', sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: var(--primary-grey);
+}
+
 .race-card {
     background: white;
     border-bottom-right-radius: 10px;
@@ -113,4 +121,16 @@
 
 .body-classification .trigram h1 {
     color: var(--secondary-grey);
+}
+
+#selectBet {
+    width: 100%;
+    height: 2.7em;
+    border-radius: 7px;
+    padding: 0.7em;
+    font-family: 'Formula-1-Regular', sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: var(--primary-grey);
+    border: 1.5px solid var(--secondary-grey);
 }

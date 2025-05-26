@@ -21,7 +21,7 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
   const [leagueData, setLeagueData] = useState<League>({
     id: "",
     name: "",
-    privateLeague: false,
+    isPrivate: false,
     sharedLink: "",
     users: [],
     maxPlayers: 10,
@@ -40,10 +40,10 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
     }, 400);
   };
 
-  const typeSelect = (privateLeague: boolean) => {
+  const typeSelect = (isPrivate: boolean) => {
     setLeagueData((prev) => ({
       ...prev,
-      privateLeague,
+      isPrivate,
     }));
   };
 
@@ -59,7 +59,7 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
     setLeagueData({
       id: "",
       name: "",
-      privateLeague: false,
+      isPrivate: false,
       sharedLink: "",
       users: [],
       maxPlayers: 10,
@@ -92,7 +92,7 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
   useEffect(() => {
     setLeagueData((prev) => ({
       ...prev,
-      privateLeague: activeTab === "private-leagues",
+      isPrivate: activeTab === "private-leagues",
     }));
   }, [activeTab]);
 
@@ -140,12 +140,12 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
             <div className="flex gap-4 mt-4 justify-center">
               <Chip
                 label="Public"
-                isSelected={!leagueData.privateLeague}
+                isSelected={!leagueData.isPrivate}
                 onClick={() => typeSelect(false)}
               />
               <Chip
                 label="Private"
-                isSelected={leagueData.privateLeague}
+                isSelected={leagueData.isPrivate}
                 onClick={() => typeSelect(true)}
               />
             </div>
