@@ -100,6 +100,7 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
           setInvitationLink(`https://p10fantasy.com/join/${joinCode}`);
           setDisplayCode(true);
           eventEmitter.emit("create-league");
+          eventEmitter.emit("refresh-league");
         } else {
           toast.error(response.error.message);
         }

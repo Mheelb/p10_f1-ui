@@ -7,6 +7,9 @@ import Button from "@/components/common/Button";
 import AuthPopup from "@/components/popups/AuthPopup";
 import { useActiveTab } from "@/context/ActiveTabProvider";
 import PublicLeague from "@/components/leagues/PublicLeague";
+import PrivateLeagues from "@/components/leagues/PrivateLeagues";
+import leagueService from "@/services/leagueService";
+import MyLeagues from "@/components/leagues/league/Myleagues";
 
 export default function Leagues() {
 
@@ -65,8 +68,12 @@ export default function Leagues() {
         <div>
             {activeTab === "public-leagues" ? (
                 <PublicLeague />
+            ) : activeTab === "private-leagues" ? (
+                <PrivateLeagues />
+            ) : activeTab === "my-leagues" ? (
+                <MyLeagues />
             ) : (
-                <div>autre</div>
+                <div></div>
             )}
             {!isLeaguePopupVisible ? (
                 <div className="fixed bottom-4 right-4 z-50">
