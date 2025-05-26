@@ -43,9 +43,9 @@ export default function Bet() {
         return (
             <div className="flex items-center justify-center h-100">
                 <div className="bg-white p-6 rounded-lg shadow-md m-4">
-                    <h1 className="text-2xl font-bold mb-10 text-center">Leagues</h1>
+                    <h1 className="text-2xl font-bold mb-10 text-center">Bet</h1>
                     <p className="text-center text-gray-600 mb-10">
-                        Please log in to access and manage your leagues.
+                        Please log in to access to your bet.
                     </p>
                     <Button onClick={toggleAuthPopup} color="primary" width="40">
                         Log In
