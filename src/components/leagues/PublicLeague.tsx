@@ -42,13 +42,6 @@ export default function PublicLeague() {
     setCurrentPage(1);
   }, [searchTerm, leagues]);
 
-  useEffect(() => {
-    eventEmitter.on("refresh-leagues", getAllLeagues);
-    return () => {
-      eventEmitter.off("refresh-leagues", getAllLeagues);
-    };
-  }, []);
-
   const indexOfLastLeague = currentPage * leaguesPerPage;
   const indexOfFirstLeague = indexOfLastLeague - leaguesPerPage;
   const currentLeagues = filteredLeagues.slice(indexOfFirstLeague, indexOfLastLeague);

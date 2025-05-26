@@ -4,7 +4,7 @@ export interface League {
     id: string;
     leagueName: string;
     isPrivate: boolean;
-    sharedLink: string;
+    joinCode: string;
     users: UserLeague[];
     maxParticipants: number;
 }

@@ -49,7 +49,6 @@ export default function JoinLeaguePopup({ isVisible, togglePopup, league, email 
     await leagueService().addUserToLeague(league.id, userId)
       .then((response) => {
         if (response.status === 200) {
-          eventEmitter.emit("refresh-leagues");
           toast.success("You have successfully joined the league!");
           closePopup();
         } else {

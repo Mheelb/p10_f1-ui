@@ -6,8 +6,9 @@ function leagueService() {
     getAllLeagues,
     createLeague,
     getUsersByLeague,
-    getLeaguesByUserId,
-    addUserToLeague
+    getLeaguesByUserId, 
+    addUserToLeague,
+    getLeagueByJoinCode
   };
 }
 
@@ -23,6 +24,11 @@ const getAllLeagues = async () => {
               maxParticipants
               isPrivate
               joinCode
+              users {
+                id
+                username
+                email
+              }
             }
             httpStatus
           }
@@ -87,6 +93,11 @@ const getLeaguesByUserId = async (userId: string) => {
             maxParticipants
             isPrivate
             joinCode
+            users {
+              id
+              username
+              email
+            }
           }
         }
       `,
@@ -97,6 +108,50 @@ const getLeaguesByUserId = async (userId: string) => {
       status: data.leaguesByUserId ? 200 : "error",
       data: data.leaguesByUserId || [],
       error: null,
+    };
+  } catch (error) {
+    return {
+      status: "error",
+      data: null,
+      error: error,
+    };
+  }
+};
+
+const getLeagueByJoinCode = async (joinCode: string) => {
+  try {
+    const { data } = await client.query({
+      query: gql`
+        query GetLeagueByJoinCode($joinCode: String!) {
+          leagueByJoinCode(input: { joinCode: $joinCode }) {
+            league {
+              id
+              leagueName
+              maxParticipants
+              isPrivate
+              joinCode
+              users {
+                id
+                username
+                email
+              }
+            }
+            error {
+              message
+              code
+            }
+            httpStatus
+          }
+        }
+      `,
+      variables: { joinCode },
+      fetchPolicy: "network-only",
+    });
+
+    return {
+      status: data.leagueByJoinCode.httpStatus,
+      data: data.leagueByJoinCode.league || null,
+      error: data.leagueByJoinCode.error || null,
     };
   } catch (error) {
     return {

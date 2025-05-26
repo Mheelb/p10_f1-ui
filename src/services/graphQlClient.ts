@@ -1,7 +1,5 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 
-console.log("API_BASE_URL", process.env.NEXT_PUBLIC_API_BASE_URI);
-
 const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_API_BASE_URI || "http://localhost:3001",
   credentials: "include",

@@ -1,15 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthProvider";
 import { useActiveTab } from "@/context/ActiveTabProvider";
 import type { League } from "@/types/League";
 import GeneralLeague from "@/components/leagues/league/GeneralLeague";
 import SettingsLeague from "@/components/leagues/league/SettingsLeague";
 import { User } from "@/types/User";
+import leagueService from "@/services/leagueService";
 
 export default function League() {
     const { name } = useParams();
+    const searchParams = useSearchParams();
+    const joinCode = searchParams.get('joinCode');
     const { isAuthenticated } = useAuth();
     const { activeTab } = useActiveTab();
     const [ leagueData, setLeagueData ] = useState<League | null>(null);
@@ -27,19 +30,18 @@ export default function League() {
         return currentUser;
     };
     
-    const getLeague = (leagueName: string) => {
-        // Fetch league data based on the name
-        setLeagueData({
-            id: "zfn78EFUQNCc9CSQ9C",
-            leagueName: leagueName,
-            users: [
-                { id: "userLeague_1", league: {} as League, user: userData, admin: true },
-                { id: "userLeague_2", league: {} as League, user: { id: "user_789", email: "other@example.com", username: "JaneDoe" }, admin: false },
-            ],
-            maxParticipants: 10,
-            isPrivate: false,
-            sharedLink: "HDS6SQN"
-        } as League);
+    const getLeague = (joinCode: string) => {
+        leagueService().getLeagueByJoinCode(joinCode)
+            .then((response) => {
+                if (response.status === 200) {
+                    setLeagueData(response.data);
+                } else {
+                    console.error("Failed to fetch league data:", response.error);
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching league data:", error);
+            });
     };
 
     useEffect(() => {
@@ -48,9 +50,10 @@ export default function League() {
     }, [isAuthenticated]);
     
     useEffect(() => {
-        if (name && typeof name === "string" && userData)
-            getLeague(name);
-    }, [name, userData]);
+        if (joinCode) {
+            getLeague(joinCode);
+        }
+    }, [joinCode]);
 
     if (activeTab === "general") {
         return (

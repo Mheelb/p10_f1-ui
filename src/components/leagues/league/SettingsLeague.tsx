@@ -8,6 +8,7 @@ import { FaCopy } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Chip from "@/components/common/Chip";
 import { User } from "@/types/User";
+import leagueService from "@/services/leagueService";
 
 interface SettingsLeagueProps {
     league: League | null;
@@ -17,9 +18,9 @@ interface SettingsLeagueProps {
 export default function SettingsLeague({ league, currentUser }: SettingsLeagueProps) {
     const [isPrivate, setIsPrivate] = useState(false);
     const [maxParticipants, setMaxParticipants] = useState(10);
-    const [sharedLink, setSharedLink] = useState("");
+    const [joinCode, setJoinCode] = useState("");
     const [isAdmin, setIsAdmin] = useState(false);
-
+    
     const copyToClipboard = (text: string) => {
         navigator.clipboard
             .writeText(text)
@@ -33,7 +34,7 @@ export default function SettingsLeague({ league, currentUser }: SettingsLeaguePr
 
     const handleSaveSettings = () => {
         // Save settings logic here
-        console.log("Settings saved:", { isPrivate, maxParticipants, sharedLink });
+        console.log("Settings saved:", { isPrivate, maxParticipants, joinCode });
     };
 
     const handleLeaveLeague = () => {
@@ -50,9 +51,8 @@ export default function SettingsLeague({ league, currentUser }: SettingsLeaguePr
         if (league) {
             setIsPrivate(league.isPrivate);
             setMaxParticipants(league.maxParticipants);
-            setSharedLink(`p10fantasy.com/league/join/${league.sharedLink}`);
-            setIsAdmin(league.users.some((user) => user.user.id === currentUser?.id && user.admin));
-            league
+            setJoinCode(`p10fantasy.com/league/join/${league.joinCode}`);
+            setIsAdmin(league.users.some((user) => user.id === currentUser?.id && user.admin));
         }
     }, [league, currentUser]);
 
@@ -65,10 +65,10 @@ export default function SettingsLeague({ league, currentUser }: SettingsLeaguePr
                         <p className="text-lg font-semibold">Shared link</p>
                         <div className="grid grid-cols-6 gap-4 items-center">
                             <div className="col-span-5">
-                                <Input type="text" value={sharedLink} disabled={true} />
+                                <Input type="text" value={joinCode} disabled={true} />
                             </div>
                             <div className="col-start-6 col-span-1">
-                                <Button onClick={() => copyToClipboard(sharedLink)} color="secondary">
+                                <Button onClick={() => copyToClipboard(joinCode)} color="secondary">
                                     <div className="flex justify-center items-center">
                                         <FaCopy className="text-lg" />
                                     </div>

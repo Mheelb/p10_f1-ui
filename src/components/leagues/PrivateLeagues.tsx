@@ -10,38 +10,23 @@ import { User } from "@/types/User";
 import LeagueCard from "@/components/leagues/LeagueCard";
 import eventEmitter from "@/utils/eventEmitter";
 import { useAuth } from "@/context/AuthProvider";
+import { useActiveTab } from "@/context/ActiveTabProvider";
+import { get } from "http";
 
 export default function PrivateLeagues() {
-    const { isAuthenticated, email } = useAuth();
+    const { isAuthenticated, email, userId } = useAuth();
     const [leagues, setLeagues] = useState<League[]>([]);
     const [filteredLeagues, setFilteredLeagues] = useState<League[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const leaguesPerPage = 10;
 
-    const getUserId = async (email: string) => {
-        try {
-            const response = await userService().getAll();
-            if (response.status === 200) {
-                const user = response.data.find((user: User) => user.email === email);
-                return user?.id || null;
-            }
-            console.error("Failed to fetch user data:", response.error);
-            return null;
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-            return null;
-        }
-    };
 
-    const getPrivateLeagues = useCallback(async () => {
+    const getPrivateLeagues = async () => {
         if (!isAuthenticated || !email) return;
-
-        const userId = await getUserId(email);
-        if (!userId) return;
         
-        await leagueService().getLeaguesByUserId(userId)
-        .then((response) => {            
+        await leagueService().getLeaguesByUserId(userId ? userId : "")
+        .then((response) => {                        
             if (response.status === 200) {
                 const privateLeagues = response.data.filter((league: League) => league.isPrivate);
                 setLeagues(privateLeagues);
@@ -52,21 +37,11 @@ export default function PrivateLeagues() {
         .catch((error) => {
             console.error("Error fetching private leagues:", error);
         });
-    }, [isAuthenticated, email]);
+    };
 
     useEffect(() => {
-        if (isAuthenticated && email) {
-            getPrivateLeagues();
-        }
-
-        eventEmitter.on("create-league", getPrivateLeagues);
-        eventEmitter.on("refresh-leagues", getPrivateLeagues);
-
-        return () => {
-            eventEmitter.off("create-league", getPrivateLeagues);
-            eventEmitter.off("refresh-leagues", getPrivateLeagues);
-        };
-    }, [getPrivateLeagues]);
+        getPrivateLeagues();
+    }, []);
 
     useEffect(() => {
         const filtered = leagues.filter((league) =>
@@ -95,7 +70,6 @@ export default function PrivateLeagues() {
     };
 
     const handleJoinLeague = (league: League) => {
-        // Pour les ligues privées, on ne peut pas rejoindre via ce composant
         console.log("Cannot join private league from this view");
     };
 
