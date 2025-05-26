@@ -46,6 +46,7 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
     setLeagueToSubmit((prev) => ({
       ...prev,
       isPrivate,
+      isPrivate,
     }));
   };
 
@@ -124,6 +125,7 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
   useEffect(() => {
     setLeagueToSubmit((prev) => ({
       ...prev,
+      isPrivate: activeTab === "private-leagues",
       isPrivate: activeTab === "private-leagues",
     }));
   }, [activeTab]);

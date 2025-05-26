@@ -41,7 +41,7 @@ const Header: FC<HeaderProps> = () => {
     };
 
     return (
-        <header className={pathname === "/" || pathname === "/account" || pathname.includes('/races/') || pathname === "/vote" 
+        <header className={pathname === "/" || pathname === "/account" || pathname.includes('/races/') || pathname === "/bet" 
             ? "h-25" : "h-35"}>
             <div className="flex items-center justify-between w-full">
                 {pathname !== "/" && (
@@ -65,8 +65,8 @@ const Header: FC<HeaderProps> = () => {
                                 ? "leagues"
                                 : pathname.includes("/league/")
                                 ? leagueName
-                                : pathname === "/vote" 
-                                ? "vote"
+                                : pathname === "/bet" 
+                                ? "bet"
                                 : "404"}
                         </h1>
                     )}

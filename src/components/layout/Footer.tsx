@@ -38,9 +38,9 @@ const Footer: FC<FooterProps> = () =>{
                 onClick={() => router.push('/races')}
             />
             <MdOutlineHowToVote 
-                className={isActive('/vote')}
+                className={isActive('/bet')}
                 size={20}
-                onClick={() => router.push('/vote')}
+                onClick={() => router.push('/bet')}
             />
             <GiCharacter 
                 className={isActive('/account')}
