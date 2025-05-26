@@ -1,9 +1,0 @@
-import { Pilote } from './Pilote';
-
-export interface Ecurie {
-    id: string;
-    name: string;
-    logo: string;
-    color: string;
-    pilotes: Pilote[];
-}
