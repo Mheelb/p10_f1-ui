@@ -98,8 +98,6 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
     leagueService().createLeague(leagueToCreate.leagueName, leagueToCreate.isPrivate, leagueToCreate.maxParticipants)
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data);
-          
           leagueService().addUserToLeague(response.data.id, userId ? userId : "", true)
           const joinCode = response.data.joinCode;
           toast.success("League created successfully");
