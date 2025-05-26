@@ -6,13 +6,12 @@ import { getCode } from 'country-list';
 import Flag from 'react-world-flags';
 import Timer from '@/components/common/Timer';
 import { useAuth } from '@/context/AuthProvider';
-import AuthPopup from '@/components/popups/AuthPopup';
 import { toast } from 'react-toastify';
 import { GP } from '@/types/GP';
 import { usePathname, useRouter } from 'next/navigation';
 import { User } from '@/types/User';
 import { BetSelectionResult } from '@/types/BetSelectionResult';
-import BetPopup from '@/components/BetPopup';
+import BetPopup from '@/components/popups/BetPopup';
 
 const BetCard: FC = () => {
     const [grandPrix, setGrandPrix] = useState<GP>({

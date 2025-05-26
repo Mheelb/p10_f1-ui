@@ -3,8 +3,16 @@
 import BetCard from '@/components/BetCard';
 import { Pilote } from '@/types/Pilote';
 import { GP } from '@/types/GP';
+import { useAuth } from '@/context/AuthProvider';
+import AuthPopup from '@/components/popups/AuthPopup';
+import Button from '@/components/common/Button';
+import { useState } from 'react';
 
 export default function Bet() {
+
+    const { isAuthenticated } = useAuth();
+    const [isAuthPopupVisible, setIsAuthPopupVisible] = useState(false);
+
   function generatePilote(id: string, name: string, trigram: string, teamName: string, teamColor: string): GP['pilotes'][number] {
       return {
         id,
@@ -25,7 +33,28 @@ export default function Bet() {
         generatePilote("01", "Max Verstappen", "VER", "Red Bull Racing", "#0600EF"),
         generatePilote("02", "Lewis Hamilton", "HAM", "Mercedes", "#00D2BE"),
         generatePilote("03", "Charles Leclerc", "LEC", "Ferrari", "#DC0000"),
-    ] 
+    ]
+
+    const toggleAuthPopup = () => {
+        setIsAuthPopupVisible((prev) => !prev);
+    };
+
+    if (!isAuthenticated) {
+        return (
+            <div className="flex items-center justify-center h-100">
+                <div className="bg-white p-6 rounded-lg shadow-md m-4">
+                    <h1 className="text-2xl font-bold mb-10 text-center">Leagues</h1>
+                    <p className="text-center text-gray-600 mb-10">
+                        Please log in to access and manage your leagues.
+                    </p>
+                    <Button onClick={toggleAuthPopup} color="primary" width="40">
+                        Log In
+                    </Button>
+                    <AuthPopup isVisible={isAuthPopupVisible} togglePopup={toggleAuthPopup} />
+                </div>
+            </div>
+        );
+    }
 
   return (
     <div className="mb-20">

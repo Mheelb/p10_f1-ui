@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
-import Button from "./common/Button";
+import Button from '@/components/common/Button';
 import { BetSelectionResult } from "@/types/BetSelectionResult";
 import { toast } from 'react-toastify';
 // import { User } from "@/types/User";
