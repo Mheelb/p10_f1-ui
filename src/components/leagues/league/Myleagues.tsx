@@ -25,7 +25,7 @@ export default function MyLeagues() {
     const getLeagues = async () => {
         if (!isAuthenticated || !email || !userId) return;
         await leagueService().getLeaguesByUserId(userId)
-            .then((response) => {            
+            .then((response) => {
                 if (response.status === 200) {
                     setLeagues(response.data);
                 } else {

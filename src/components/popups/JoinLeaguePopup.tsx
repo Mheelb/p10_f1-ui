@@ -22,28 +22,10 @@ interface JoinLeaguePopupProps {
 export default function JoinLeaguePopup({ isVisible, togglePopup, league, email }: JoinLeaguePopupProps) {
   const [isClosing, setIsClosing] = useState(false);
   const [isJoining, setIsJoining] = useState(false);
-  const [leagueMember, setLeagueMember] = useState([]);
-  const { isAuthenticated } = useAuth();
-
-  const getUserId = async (email: string) => {
-    try {
-      const response = await userService().getAll();
-      if (response.status === 200) {
-        const user = response.data.find((user: User) => user.email === email);
-        return user?.id || null;
-      }
-      console.error("Failed to fetch user data:", response.error);
-      return null;
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      return null;
-    }
-  };
+  const { isAuthenticated, userId } = useAuth();
 
   const joinLeague = async () => {
     if (!isAuthenticated || !email) return;
-
-    const userId = await getUserId(email);
     if (!userId) return;
 
     await leagueService().addUserToLeague(league.id, userId)
@@ -61,18 +43,6 @@ export default function JoinLeaguePopup({ isVisible, togglePopup, league, email 
     );
   };
 
-  const getLeagueMember = (leagueId: string) => {
-    leagueService().getUsersByLeague(leagueId)
-      .then((response) => {
-        if (response.status === 200) {
-          setLeagueMember(response.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching league members:", error);
-      });
-  };
-
   const closePopup = () => {
     setIsClosing(true);
     setTimeout(() => {
@@ -82,12 +52,12 @@ export default function JoinLeaguePopup({ isVisible, togglePopup, league, email 
   };
 
   const handleJoinLeague = () => {
-    if (leagueMember.some((user) => user.user.email === email)) {
+    if (league.users.some((user) => user.id === userId)) {
       toast.error("You are already in this league!");
       return;
     }
 
-    if (leagueMember.length >= league.maxParticipants) {
+    if (league.users.length >= league.maxParticipants) {
       toast.error("This league is full!");
       return;
     }
@@ -97,14 +67,9 @@ export default function JoinLeaguePopup({ isVisible, togglePopup, league, email 
     joinLeague()
       .finally(() => {
         setIsJoining(false);
-        window.location.reload();
       }
     );
   };
-
-  useEffect(() => {
-    getLeagueMember(league.id);
-  });
 
   if (!isVisible) return null;
 
@@ -120,7 +85,7 @@ export default function JoinLeaguePopup({ isVisible, togglePopup, league, email 
           <strong>League Name:</strong> {league.leagueName}
         </h3>
         <h3 className="text-center mt-2">
-          <strong>Players:</strong> {leagueMember.length} / {league.maxParticipants}
+          <strong>Players:</strong> {league.users.length} / {league.maxParticipants}
         </h3>
         <div className="flex justify-center gap-4 mt-6">
           <Button onClick={handleJoinLeague} disabled={isJoining}>
