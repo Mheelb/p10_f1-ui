@@ -29,6 +29,14 @@
     opacity: 40%;
 }
 
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    background: var(--primary-white);
+    border: 1.5px solid var(--primary);
+}
+
 .input {
     border-radius: 5px;
     padding: 10px;
@@ -101,4 +109,15 @@
   
   .popup-slide-out {
     animation: slideOutToBottom 0.5s ease-out;
+  }
+
+  .search-bar {
+    padding: 10px;
+    background-color: white;
+    border-radius: 40px;
+  }
+
+  .search-bar:focus {
+    outline: none;
+    border: 1px solid var(--primary);
   }

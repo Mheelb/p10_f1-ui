@@ -2,13 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
-import Input from "./common/Input";
-import Chip from "./common/Chip";
+import Input from "../common/Input";
+import Chip from "../common/Chip";
 import { toast } from "react-toastify";
-import Button from "./common/Button";
+import Button from "../common/Button";
 import { useActiveTab } from "@/context/ActiveTabProvider";
 import { FaCopy } from "react-icons/fa";
 import { League } from "@/types/League";
+import leagueService from "@/services/leagueService";
+import eventEmitter from "@/utils/eventEmitter";
 
 interface AddLeaguePopupProps {
   isVisible: boolean;
@@ -18,13 +20,13 @@ interface AddLeaguePopupProps {
 export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopupProps) {
   const { activeTab } = useActiveTab();
 
-  const [leagueData, setLeagueData] = useState<League>({
+  const [leagueToSubmit, setLeagueToSubmit] = useState<League>({
     id: "",
-    name: "",
+    leagueName: "",
     isPrivate: false,
     sharedLink: "",
     users: [],
-    maxPlayers: 10,
+    maxParticipants: 10,
   });
 
   const [isClosing, setIsClosing] = useState(false);
@@ -35,47 +37,78 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
     setIsClosing(true);
     setTimeout(() => {
       togglePopup();
-      resetLeagueData();
+      resetLeagueToSubmit();
       setIsClosing(false);
     }, 400);
   };
 
   const typeSelect = (isPrivate: boolean) => {
-    setLeagueData((prev) => ({
+    setLeagueToSubmit((prev) => ({
       ...prev,
+      isPrivate,
       isPrivate,
     }));
   };
 
-  const changeLeagueData = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeLeagueToSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setLeagueData((prev) => ({
+    setLeagueToSubmit((prev) => ({
       ...prev,
-      [name]: name === "maxPlayers" ? parseInt(value) : value,
+      [name]: name === "maxParticipants" ? parseInt(value) || 0 : value,
     }));
   };
 
-  const resetLeagueData = () => {
-    setLeagueData({
+  const resetLeagueToSubmit = () => {
+    setLeagueToSubmit({
       id: "",
-      name: "",
+      leagueName: "",
       isPrivate: false,
       sharedLink: "",
       users: [],
-      maxPlayers: 10,
+      maxParticipants: 10,
     });
   };
 
-  const promptToCreateLeague = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (leagueData.name.trim() === "") {
-      toast.error("Please enter a name for your league");
+    let league = leagueToSubmit;
+
+    if (leagueToSubmit.leagueName.length < 3) {
+      toast.error("League name must be at least 3 characters long");
       return;
     }
-    toast.success("League created successfully");
-    console.log(leagueData);
-    setDisplayCode(true);
-    setInvitationLink(`https://p10fantasy.com/join/${leagueData.name}`);
+    if (leagueToSubmit.maxParticipants < 2) {
+      toast.error("League must have at least 2 participants");
+      return;
+    }
+    if (leagueToSubmit.maxParticipants > 100) {
+      toast.error("League cannot have more than 100 participants");
+      return;
+    }
+
+    league.leagueName = league.leagueName.trim();
+    league.maxParticipants = league.maxParticipants ? league.maxParticipants : 10;
+
+    promptToCreateLeague(league);
+  };
+
+  const promptToCreateLeague = (leagueToCreate: League) => {
+    leagueService().createLeague(leagueToCreate.leagueName, leagueToCreate.isPrivate, leagueToCreate.maxParticipants)
+      .then((response) => {
+        if (response.status === 200) {
+          const joinCode = response.data.joinCode;
+          toast.success("League created successfully");
+          setInvitationLink(`https://p10fantasy.com/join/${joinCode}`);
+          setDisplayCode(true);
+          eventEmitter.emit("create-league");
+          eventEmitter.emit("refresh-league");
+        } else {
+          toast.error(response.error.message);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const copyToClipboard = (text: string) => {
@@ -90,8 +123,9 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
   };
 
   useEffect(() => {
-    setLeagueData((prev) => ({
+    setLeagueToSubmit((prev) => ({
       ...prev,
+      isPrivate: activeTab === "private-leagues",
       isPrivate: activeTab === "private-leagues",
     }));
   }, [activeTab]);
@@ -135,35 +169,35 @@ export default function AddLeaguePopup({ isVisible, togglePopup }: AddLeaguePopu
             className="absolute top-4 right-4 text-2xl"
           />
           <h1 className="text-4xl font-bold text-center mt-5">Create your league</h1>
-          <form onSubmit={promptToCreateLeague} className="flex flex-col gap-4 mt-10">
+          <form onSubmit={submitForm} className="flex flex-col gap-4 mt-10">
             <h2>League type</h2>
             <div className="flex gap-4 mt-4 justify-center">
               <Chip
                 label="Public"
-                isSelected={!leagueData.isPrivate}
+                isSelected={!leagueToSubmit.isPrivate}
                 onClick={() => typeSelect(false)}
               />
               <Chip
                 label="Private"
-                isSelected={leagueData.isPrivate}
+                isSelected={leagueToSubmit.isPrivate}
                 onClick={() => typeSelect(true)}
               />
             </div>
             <h2 className="-mt-2">Name</h2>
             <Input
-              name="name"
+              name="leagueName"
               type="text"
               placeholder="League name"
-              value={leagueData.name}
-              onChange={changeLeagueData}
+              value={leagueToSubmit.leagueName}
+              onChange={changeLeagueToSubmit}
             />
             <h2 className="mt-2">Max players</h2>
             <Input
-              name="maxPlayers"
+              name="maxParticipants"
               type="number"
               placeholder="10 by default"
-              value={leagueData.maxPlayers !== null ? String(leagueData.maxPlayers) : ""}
-              onChange={changeLeagueData}
+              value={leagueToSubmit.maxParticipants !== null ? String(leagueToSubmit.maxParticipants) : ""}
+              onChange={changeLeagueToSubmit}
             />
             <div className="mt-5">
               <Button type="submit">Create</Button>

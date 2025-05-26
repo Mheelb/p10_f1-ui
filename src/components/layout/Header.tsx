@@ -2,7 +2,7 @@
 
 import { FC, useEffect, useState } from "react";
 import Image from "next/image";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 import { useActiveTab } from '@/context/ActiveTabProvider';
 
@@ -13,6 +13,8 @@ const Header: FC<HeaderProps> = () => {
     
     const searchParams = useSearchParams();
     const name = searchParams.get("name");
+    const leagueName = useParams().name;
+
     
     const pathname = usePathname();
     const [isClient, setIsClient] = useState(false);
@@ -27,6 +29,8 @@ const Header: FC<HeaderProps> = () => {
             setActiveTab("upcoming");
         } else if (pathname === "/leagues") {
             setActiveTab("my-leagues");
+        } else if (pathname.includes("/league/")) {
+            setActiveTab("general");
         }
     }, [pathname]);
 
@@ -59,6 +63,8 @@ const Header: FC<HeaderProps> = () => {
                                 ? name
                                 : pathname === "/leagues" 
                                 ? "leagues"
+                                : pathname.includes("/league/")
+                                ? leagueName
                                 : pathname === "/bet" 
                                 ? "bet"
                                 : "404"}
@@ -94,6 +100,21 @@ const Header: FC<HeaderProps> = () => {
                                 private
                         </h3>
                     </div>
+                ) : pathname.includes("/league/") ? (
+                    <div className="grid grid-cols-3">
+                    <h3 className={activeTab === "ranking" ? "text-center mt-5 pb-3 active" : "text-center mt-5 pb-3"}
+                         onClick={() => setActiveTab("ranking")}>
+                            ranking
+                    </h3>
+                    <h3 className={activeTab === "general" ? "text-center mt-5 pb-3 active" : "text-center mt-5 pb-3"}
+                         onClick={() => setActiveTab("general")}>
+                            general
+                    </h3>
+                    <h3 className={activeTab === "settings" ? "text-center mt-5 pb-3 active" : "text-center mt-5 pb-3"}
+                         onClick={() => setActiveTab("settings")}>
+                            settings
+                    </h3>
+                </div>
                 ) : (
                     <div></div>
                 )}
