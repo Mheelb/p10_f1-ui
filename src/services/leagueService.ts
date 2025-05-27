@@ -25,9 +25,11 @@ const getAllLeagues = async () => {
               isPrivate
               joinCode
               users {
-                id
-                username
-                email
+                user {
+                  username
+                  email
+                }
+                admin
               }
             }
             httpStatus
@@ -94,9 +96,11 @@ const getLeaguesByUserId = async (userId: string) => {
             isPrivate
             joinCode
             users {
-              id
-              username
-              email
+              user {
+                username
+                email
+              }
+              admin
             }
           }
         }
@@ -131,9 +135,11 @@ const getLeagueByJoinCode = async (joinCode: string) => {
               isPrivate
               joinCode
               users {
-                id
-                username
-                email
+                user {
+                  username
+                  email
+                }
+                admin
               }
             }
             error {
@@ -207,9 +213,12 @@ const addUserToLeague = async (leagueId: string, userId: string, admin: boolean 
               leagueName
               maxParticipants
               users {
-                id
-                username
-                email
+                user {
+                  id
+                  username
+                  email
+                }
+                admin
               }
             }
             httpStatus
