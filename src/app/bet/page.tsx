@@ -69,7 +69,7 @@ export default function Bet() {
                             <div className="flex p-4">
                                 <div>
                                     <img
-                                        src={pilote.picture}
+                                        src={pilote.picture ? pilote.picture : 'assets/images/default-driver.svg'}
                                         alt={pilote.name}
                                         className="w-15 h-15 border border-gray-300 shadow-md"
                                     />
