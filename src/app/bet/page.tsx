@@ -59,7 +59,7 @@ export default function Bet() {
 
   return (
     <div className="mb-20">
-        <div className="flex justify-center mt-1">
+        <div className="flex justify-center mt-10">
             <BetCard />
         </div>
 

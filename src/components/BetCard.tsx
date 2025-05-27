@@ -278,7 +278,7 @@ const BetCard: FC = () => {
                         <div>
                             {user?.bets?.map((bet: BetSelectionResult) => (
                                 <div key={bet.id} className="bet-info">
-                                    <p>Your bet : <b>{bet.piloteP10.name}</b></p>
+                                    <p>Your bet :&nbsp;<b>{bet.piloteP10.name}</b></p>
                                 </div>
                             ))}
 
@@ -306,7 +306,7 @@ const BetCard: FC = () => {
                         <div>
                             {user?.bets?.map((bet: BetSelectionResult) => (
                                 <div key={bet.id} className="bet-info">
-                                    <p>Your bet : <b>{bet.piloteP10.name}</b></p>
+                                    <p>Your bet :&nbsp;<b>{bet.piloteP10.name}</b></p>
                                 </div>
                             ))}
                             <Button onClick={bettingHandler}>Modify</Button>
