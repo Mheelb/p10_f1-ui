@@ -29,6 +29,7 @@ export default function Bet() {
       };
   }
   
+  
     const pilotes = [
         generatePilote("01", "Max Verstappen", "VER", "Red Bull Racing", "#0600EF"),
         generatePilote("02", "Lewis Hamilton", "HAM", "Mercedes", "#00D2BE"),
