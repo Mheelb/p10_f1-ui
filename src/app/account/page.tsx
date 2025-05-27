@@ -10,7 +10,7 @@ import Input from "@/components/common/Input";
 import { User } from "@/types/User";
 
 export default function Account() {
-  const { isAuthenticated, email, logout } = useAuth();
+  const { isAuthenticated, email, username, logout } = useAuth();
 
   const [userData, setUserData] = useState<User | null>(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -72,11 +72,11 @@ export default function Account() {
           <h1 className="text-2xl font-bold mb-10 text-center">Account Information</h1>
           <div className="mb-4">
             <h2>Username</h2>
-            <Input value={userData?.username || ""} disabled={true}></Input>
+            <Input value={username || ""} disabled={true}></Input>
           </div>
           <div className="mb-10">
             <h2>Email</h2>
-            <Input value={userData?.email || ""} disabled={true}></Input>
+            <Input value={email ? email : undefined} disabled={true}></Input>
           </div>
           <Button onClick={logoutHandler} color="secondary" width="40">
             Logout
