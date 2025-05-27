@@ -85,11 +85,13 @@ export default function MyLeagues() {
                     <p>Vous n'avez pas encore de ligues.</p>
                 </div>
             ) : (
-                currentLeagues.map((league) => (
-                    <div key={league.id} className="flex justify-between items-center">
-                        <LeagueCard league={league} onJoin={() => (router.push(`/league/${league.leagueName}?joinCode=${league.joinCode}`))} />
-                    </div>
-                ))
+                <div className="mb-20">
+                    {currentLeagues.map((league) => (
+                        <div key={league.id} className="flex justify-between items-center">
+                            <LeagueCard league={league} onJoin={() => (router.push(`/league/${league.leagueName}?joinCode=${league.joinCode}`))} />
+                        </div>
+                    ))}
+                </div>
             )}
             {totalPages > 1 && (
                 <div className="flex justify-center items-center mt-6 mb-20">

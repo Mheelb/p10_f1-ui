@@ -24,19 +24,19 @@ export default function PrivateLeagues() {
 
     const getPrivateLeagues = async () => {
         if (!isAuthenticated || !email) return;
-        
+
         await leagueService().getLeaguesByUserId(userId ? userId : "")
-        .then((response) => {                        
-            if (response.status === 200) {
-                const privateLeagues = response.data.filter((league: League) => league.isPrivate);
-                setLeagues(privateLeagues);
-            } else {
-                console.error("Failed to fetch private leagues:", response.error);
-            }
-        })
-        .catch((error) => {
-            console.error("Error fetching private leagues:", error);
-        });
+            .then((response) => {
+                if (response.status === 200) {
+                    const privateLeagues = response.data.filter((league: League) => league.isPrivate);
+                    setLeagues(privateLeagues);
+                } else {
+                    console.error("Failed to fetch private leagues:", response.error);
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching private leagues:", error);
+            });
     };
 
     useEffect(() => {
@@ -91,11 +91,13 @@ export default function PrivateLeagues() {
                     <p>Vous n'avez pas encore de ligues privées.</p>
                 </div>
             ) : (
-                currentLeagues.map((league) => (
-                    <div key={league.id} className="flex justify-between items-center">
-                        <LeagueCard league={league} onJoin={() => handleJoinLeague(league)} />
-                    </div>
-                ))
+                <div className="mb-10">
+                    {currentLeagues.map((league) => (
+                        <div key={league.id} className="flex justify-between items-center">
+                            <LeagueCard league={league} onJoin={() => handleJoinLeague(league)} />
+                        </div>
+                    ))}
+                </div>
             )}
             {totalPages > 1 && (
                 <div className="flex justify-center items-center mt-6 mb-20">

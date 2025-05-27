@@ -75,24 +75,28 @@ export default function PublicLeague() {
       <div className="flex justify-between items-center my-4 mx-2">
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       </div>
-      {currentLeagues.map((league) => (
-        <div key={league.id} className="flex justify-between items-center">
-          <LeagueCard league={league} onJoin={() => openJoinPopup(league)} />
-        </div>
-      ))}
-      <div className="flex justify-center items-center mt-6 mb-20">
-        <IoIosArrowBack
-          className={`arrow text-2xl mr-2 ${currentPage === 1 ? "text-gray-400" : "cursor-pointer"}`}
-          onClick={handlePreviousPage}
-        />
-        <p>
-          Page {currentPage} of {totalPages}
-        </p>
-        <IoIosArrowForward
-          className={`arrow text-2xl ml-2 ${currentPage === totalPages ? "text-gray-400" : "cursor-pointer"}`}
-          onClick={handleNextPage}
-        />
+      <div className="mb-10">
+        {currentLeagues.map((league) => (
+          <div key={league.id} className="flex justify-between items-center">
+            <LeagueCard league={league} onJoin={() => openJoinPopup(league)} />
+          </div>
+        ))}
       </div>
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center mt-6 mb-20">
+          <IoIosArrowBack
+            className={`arrow text-2xl mr-2 ${currentPage === 1 ? "text-gray-400" : "cursor-pointer"}`}
+            onClick={handlePreviousPage}
+          />
+          <p>
+            Page {currentPage} sur {totalPages}
+          </p>
+          <IoIosArrowForward
+            className={`arrow text-2xl ml-2 ${currentPage === totalPages ? "text-gray-400" : "cursor-pointer"}`}
+            onClick={handleNextPage}
+          />
+        </div>
+      )}
       {selectedLeague && (
         <JoinLeaguePopup
           isVisible={isPopupVisible}
